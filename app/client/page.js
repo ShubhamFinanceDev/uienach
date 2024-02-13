@@ -43,7 +43,7 @@ const EnachClient = () => {
             <div className="row">
                 {formInput.map((d, idx) => {
                     return (
-                        <div className="col-md-6 col-12 mt-3">
+                        <div className="col-md-6 col-12 mt-3" key={`form_input__${d.name + d.idx}`}>
                             <label htmlFor={d.id}>{d.label}</label>
                             <input type={d.type} id={d.id} name={d.name} className='form-control' />
                             <p className='info'>Output: {d.info}</p>
