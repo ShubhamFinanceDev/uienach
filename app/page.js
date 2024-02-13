@@ -3,6 +3,7 @@
 import React, { useEffect } from 'react'
 
 import useAuthHooks from '@/hooks/useAuthHooks'
+import Link from 'next/link';
 
 const HomePage = () => {
 
@@ -14,7 +15,13 @@ const HomePage = () => {
     }, [])
 
     return (
-        <div>HomePage</div>
+        <div>
+            <h2>Online eNACH (eMandate)</h2>
+
+            <Link href="/client">
+                <button className='btn btn-primary mt-5'>Click to proceed</button>
+            </Link>
+        </div>
     )
 }
 
