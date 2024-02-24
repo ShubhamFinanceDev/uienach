@@ -22,11 +22,30 @@ const useLogicHooks = () => {
     const [conditionRender, setConditionRender] = useState({ ...conditionRenderInitialState })
     const [userDetailState, setUserDetailState] = useState({ ...userDetailsInitialState })
 
+    const conditionRenderHandler = (key) => {
+        let state = { ...conditionRender }
+
+        const stateModifier = (newStateValue) => {
+            state = { ...state, ...newStateValue }
+        }
+
+        switch (key) {
+            case "SHOW_OTP_SECTION":
+                stateModifier({ showOTPSection: true })
+                break;
+
+            default:
+                break;
+        }
+        setConditionRender(state)
+    }
+
 
     const requestOTPHandler = async (e) => {
-        e.preventDefault()
+        e?.preventDefault()
         try {
             console.log('+++ userDetailState', userDetailState);
+            conditionRenderHandler("SHOW_OTP_SECTION")
 
         } catch (error) {
             ErrorHandler(error)
@@ -34,6 +53,7 @@ const useLogicHooks = () => {
     }
 
     const validateOTPHandler = async (e) => {
+        e?.preventDefault()
         try {
 
         } catch (error) {

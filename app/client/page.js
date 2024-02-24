@@ -18,7 +18,7 @@ const OTPFormInput = [
 const ClientAuthPage = () => {
     const router = useRouter()
 
-    const { userDetailState, userDetailChangeHandler, conditionRender, requestOTPHandler } = useLogicHooks()
+    const { userDetailState, conditionRender, userDetailChangeHandler, requestOTPHandler, validateOTPHandler } = useLogicHooks()
 
     return (
         <div className='container'>
@@ -29,11 +29,11 @@ const ClientAuthPage = () => {
             <p className='mb-3'>Create or modify mandate for future payment.</p>
 
             <form className="row" onSubmit={requestOTPHandler}>
-                {formInput.map((d, idx) => {
+                {formInput.map((d) => {
                     return (
                         <InputWithLabel
-                            key={`form_input_applicationNo__${idx}`}
-                            feild={d}
+                            key={`form_input__${d.name}`}
+                            feild={{ ...d, isDisabled: conditionRender.showOTPSection }}
                             state={userDetailState}
                             onChangeHandler={userDetailChangeHandler}
                             className={[
@@ -43,33 +43,36 @@ const ClientAuthPage = () => {
                     )
                 })}
 
-                <div className='mt-4'>
-                    <button className='btn btn-primary' type='submit'>{!conditionRender.showOTPSection ? "Request OTP" : "Resend OTP"}</button>
-                </div>
+                {!conditionRender.showOTPSection && <div className='mt-4'>
+                    <button className='btn btn-primary' type='submit'>Request OTP</button>
+                </div>}
             </form>
 
 
-            {conditionRender.showOTPSection ? <form className="row mt-4">
-                {OTPFormInput.map((d, idx) => {
-                    return (
-                        <InputWithLabel
-                            feild={d}
-                            state={userDetailState}
-                            onChangeHandler={userDetailChangeHandler}
-                        />
-                    )
-                })}
+            {conditionRender.showOTPSection ?
+                <form className="row mt-2" onSubmit={validateOTPHandler}>
 
-                <div className="col-12 mt-3">
-                    <p className='info'>By clicking Submit, you agree to the <a href="https://shubham.co/terms-and-conditions.php" target="_blank">Terms and Conditions</a> &amp; <a href="https://shubham.co/privacy-policy.php" target="_blank">Privacy Policy</a> of Shubham Housing Development Finance Company Ltd.</p>
-                </div>
+                    {OTPFormInput.map((d) => {
+                        return (
+                            <InputWithLabel
+                                key={`form_input__${d.name}`}
+                                feild={d}
+                                state={userDetailState}
+                                onChangeHandler={userDetailChangeHandler}
+                            />
+                        )
+                    })}
 
-                <div className='mt-4'>
-                    <button className='btn btn-primary' onClick={() => router.push("/client/enach")}>Submit</button>
-                    <button className='btn'>Resend OTP</button>
-                </div>
+                    <div className="col-12 mt-3">
+                        <p className='info'>By clicking Submit, you agree to the <a href="https://shubham.co/terms-and-conditions.php" target="_blank">Terms and Conditions</a> &amp; <a href="https://shubham.co/privacy-policy.php" target="_blank">Privacy Policy</a> of Shubham Housing Development Finance Company Ltd.</p>
+                    </div>
 
-            </form> : <></>}
+                    <div className='mt-4'>
+                        <button className='btn btn-primary' onClick={() => router.push("/client/enach")}>Submit</button>
+                        <button className='btn' type='button' onClick={requestOTPHandler}>Resend OTP</button>
+                    </div>
+
+                </form> : <></>}
         </div>
     )
 }

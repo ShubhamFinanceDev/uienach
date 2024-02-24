@@ -4,9 +4,9 @@ import Link from 'next/link'
 import React, { useEffect } from 'react'
 import { AES256Encryptor, SHA256Hash } from '@/utils/AESEncryption'
 
-const UTIL_CODE = process.env.UTIL_CODE
-const SHORT_CODE = process.env.SHORT_CODE
-const MERCHANT_CATEGORY_CODE = process.env.MERCHANT_CATEGORY_CODE
+const UTIL_CODE = process.env.NEXT_PUBLIC_UTIL_CODE
+const SHORT_CODE = process.env.NEXT_PUBLIC_SHORT_CODE
+const MERCHANT_CATEGORY_CODE = process.env.NEXT_PUBLIC_MERCHANT_CATEGORY_CODE
 
 
 

@@ -1,8 +1,6 @@
 const crypto = require('crypto');
 
-const encryptionKey = process.env.ENCRYPTION_KEY || "k2hLr4X0ozNyZByj5DT66edtCEee1x+6"
-
-let env = process.env.ENCRYPTION_KEY
+const encryptionKey = process.env.NEXT_PUBLIC_ENCRYPTION_KEY || ""
 
 function ByteArrayToString(ba) {
     return ba.toString('hex');
