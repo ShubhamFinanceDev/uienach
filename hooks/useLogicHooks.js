@@ -11,15 +11,22 @@ const conditionRenderInitialState = {
 
 }
 
+const userDetailsInitialState = {
+    applicationNumber: "",
+    confirmApplicationNumber: "",
+    otp: "",
+}
+
 const useLogicHooks = () => {
 
     const [conditionRender, setConditionRender] = useState({ ...conditionRenderInitialState })
-    const [userDetailsState, setUserDetailsState] = useState({})
+    const [userDetailState, setUserDetailState] = useState({ ...userDetailsInitialState })
 
 
     const requestOTPHandler = async (e) => {
         e.preventDefault()
         try {
+            console.log('+++ userDetailState', userDetailState);
 
         } catch (error) {
             ErrorHandler(error)
@@ -37,13 +44,13 @@ const useLogicHooks = () => {
 
 
     return ({
-        conditionRender, userDetailsState,
+        conditionRender, userDetailState,
 
 
         requestOTPHandler, validateOTPHandler,
 
 
-        userDetailsChangeHandler: (e) => changeHandlerHelper(e, userDetailsState, setUserDetailsState)
+        userDetailChangeHandler: (e) => changeHandlerHelper(e, userDetailState, setUserDetailState)
     })
 }
 

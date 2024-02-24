@@ -4,11 +4,12 @@ import React from 'react'
 import { useRouter } from 'next/navigation'
 import useLogicHooks from '@/hooks/useLogicHooks'
 import Branding from '@/components/core/Branding'
+import InputWithLabel from '@/components/input/InputWithLabel'
 
 
 const formInput = [
-    { type: 'text', id: 'ApplicationNumber', label: 'Application Number', name: 'applicationNumber' },
-    { type: 'password', id: 'ConfirmApplicationNumber', label: 'Confirm Application Number', name: 'confirmApplicationNumber' },
+    { isRequired: true, type: 'text', id: 'ApplicationNumber', label: 'Application Number', name: 'applicationNumber' },
+    { isRequired: true, type: 'password', id: 'ConfirmApplicationNumber', label: 'Confirm Application Number', name: 'confirmApplicationNumber' },
 ]
 const OTPFormInput = [
     { type: 'text', id: 'otp', label: 'One Time Password (OTP)', name: 'otp' },
@@ -17,7 +18,7 @@ const OTPFormInput = [
 const ClientAuthPage = () => {
     const router = useRouter()
 
-    const { conditionRender, requestOTPHandler } = useLogicHooks()
+    const { userDetailState, userDetailChangeHandler, conditionRender, requestOTPHandler } = useLogicHooks()
 
     return (
         <div className='container'>
@@ -28,12 +29,17 @@ const ClientAuthPage = () => {
             <p className='mb-3'>Create or modify mandate for future payment.</p>
 
             <form className="row" onSubmit={requestOTPHandler}>
-                {formInput.map((d) => {
+                {formInput.map((d, idx) => {
                     return (
-                        <div className="col-md-12 col-12 mt-3" key={`form_input__${d.name}`}>
-                            <label htmlFor={d.id}>{d.label}</label>
-                            <input type={d.type} id={d.id} name={d.name} className='form-control' />
-                        </div>
+                        <InputWithLabel
+                            key={`form_input_applicationNo__${idx}`}
+                            feild={d}
+                            state={userDetailState}
+                            onChangeHandler={userDetailChangeHandler}
+                            className={[
+                                "col-12 mt-3", "", "form-control"
+                            ]}
+                        />
                     )
                 })}
 
@@ -46,10 +52,11 @@ const ClientAuthPage = () => {
             {conditionRender.showOTPSection ? <form className="row mt-4">
                 {OTPFormInput.map((d, idx) => {
                     return (
-                        <div className="col-md-12 col-12 mt-3" key={`form_input__${d.name + d.idx}`}>
-                            <label htmlFor={d.id}>{d.label}</label>
-                            <input type={d.type} id={d.id} name={d.name} className='form-control' />
-                        </div>
+                        <InputWithLabel
+                            feild={d}
+                            state={userDetailState}
+                            onChangeHandler={userDetailChangeHandler}
+                        />
                     )
                 })}
 
