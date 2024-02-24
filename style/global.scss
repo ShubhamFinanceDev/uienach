@@ -227,7 +227,14 @@ main {
 // loader core component end here
 
 .info {
-  color: grey;
-  font-size: 0.8rem;
+  color: rgb(53, 53, 53);
+  font-size: 0.9rem;
   margin-top: 0.25rem;
+
+  a {
+    color: rgb(53, 53, 53);
+    font-size: 0.9rem;
+    font-weight: 500;
+    text-decoration: underline;
+  }
 }

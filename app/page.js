@@ -2,21 +2,16 @@
 
 import React, { useEffect } from 'react'
 
-import useAuthHooks from '@/hooks/useAuthHooks'
 import Link from 'next/link';
 
 const HomePage = () => {
 
-    const { userLoginHandler } = useAuthHooks();
 
-
-    useEffect(() => {
-        userLoginHandler()
-    }, [])
 
     return (
         <div>
-            <h2>Online eNACH (eMandate)</h2>
+            <h2>E-Nach Registration</h2>
+            <p>eNACH stands for electronic NACH and utilizes the services of NPCI’s National Automated Clearing House (NACH)</p>
 
             <Link href="/client">
                 <button className='btn btn-primary mt-5'>Click to proceed</button>
