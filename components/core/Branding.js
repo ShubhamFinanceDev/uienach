@@ -2,7 +2,8 @@ import React from 'react'
 
 const Branding = () => {
     return (
-        <div>Branding</div>
+        <div className='branding'><img src="/logo.jpg" alt="shubham finance logo" className='logo' />
+        </div>
     )
 }
 

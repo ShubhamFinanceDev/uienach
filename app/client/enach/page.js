@@ -3,6 +3,7 @@
 import Link from 'next/link'
 import React, { useEffect } from 'react'
 import { AES256Encryptor, SHA256Hash } from '@/utils/AESEncryption'
+import Branding from '@/components/core/Branding'
 
 const UTIL_CODE = process.env.NEXT_PUBLIC_UTIL_CODE
 const SHORT_CODE = process.env.NEXT_PUBLIC_SHORT_CODE
@@ -89,9 +90,7 @@ const EnachClient = () => {
     }, [])
     return (
         <div className='container'>
-
-            {/* logo */}
-
+            <Branding />
             <div className="row">
                 {formInput.map((d, idx) => {
                     return (

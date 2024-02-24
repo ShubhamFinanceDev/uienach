@@ -22,9 +22,7 @@ const ClientAuthPage = () => {
 
     return (
         <div className='container'>
-
             <Branding />
-
             <h2 className='mt-5 mb-1'>E-Nach Registration</h2>
             <p className='mb-3'>Create or modify mandate for future payment.</p>
 
