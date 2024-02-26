@@ -152,7 +152,7 @@ const useLogicHooks = () => {
         setEnachState((state) => ({ ...state, ...data }))
     }
 
-    const enachSubmitHandler = (e) => {
+    const enachSubmitHandler = async (e) => {
         e?.preventDefault()
         try {
             const body = { ...enachState }
@@ -170,7 +170,19 @@ const useLogicHooks = () => {
                 body[k] = AES256Encryptor(body[k])
             }
 
-            console.log('+++ body', body);
+            const formData = new FormData();
+
+            for (const [k, v] of Object.entries(body)) {
+                formData.append(k, v);
+            }
+
+            const URL = {
+                UAT: 'https://emandateut.hdfcbank.com/Emandate.aspx',
+                UAT_SIM: 'https://emandateut.hdfcbank.com/testingapi.aspx'
+            }
+
+            const { data } = await axios.post(URL.UAT_SIM, formData)
+
         } catch (error) {
             ErrorHandler(error)
         }
