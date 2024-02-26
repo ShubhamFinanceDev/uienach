@@ -89,6 +89,13 @@ label {
   font-size: 0.9rem;
   font-weight: 500;
   margin-bottom: 0.25rem;
+
+  & span::before {
+    content: "*";
+    font-size: 0.8rem;
+    color: red;
+    margin: 0 0.25rem;
+  }
 }
 
 ul,

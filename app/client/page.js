@@ -12,7 +12,7 @@ const formInput = [
     { isRequired: true, type: 'password', id: 'ConfirmApplicationNumber', label: 'Confirm Application Number', name: 'confirmApplicationNumber' },
 ]
 const OTPFormInput = [
-    { type: 'text', id: 'otp', label: 'One Time Password (OTP)', name: 'otp' },
+    { type: 'text', id: 'otp', label: 'One Time Password (OTP)', name: 'otpCode', isRequired: true },
 ]
 
 const ClientAuthPage = () => {
@@ -23,7 +23,7 @@ const ClientAuthPage = () => {
     return (
         <div className='container'>
             <Branding />
-            <h2 className='mt-5 mb-1'>E-Nach Registration</h2>
+            <h2 className='mb-1'>E-Nach Registration</h2>
             <p className='mb-3'>Create or modify mandate for future payment.</p>
 
             <form className="row" onSubmit={requestOTPHandler}>
@@ -57,6 +57,9 @@ const ClientAuthPage = () => {
                                 feild={d}
                                 state={userDetailState}
                                 onChangeHandler={userDetailChangeHandler}
+                                className={[
+                                    "col-12 mt-3", "", "form-control"
+                                ]}
                             />
                         )
                     })}
@@ -66,7 +69,7 @@ const ClientAuthPage = () => {
                     </div>
 
                     <div className='mt-4'>
-                        <button className='btn btn-primary' onClick={() => router.push("/client/enach")}>Submit</button>
+                        <button className='btn btn-primary' type="submit">Submit</button>
                         <button className='btn' type='button' onClick={requestOTPHandler}>Resend OTP</button>
                     </div>
 

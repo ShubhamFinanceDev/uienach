@@ -1,11 +1,11 @@
 import { combineReducers, configureStore } from '@reduxjs/toolkit'
 
 import loaderSlice from './slice/loader.slice'
-import authSlice from './slice/auth.slice'
+import enachSlice from './slice/enach.slice'
 
 const rootReducer = combineReducers({
     loaderSlice,
-    authSlice,
+    enachSlice
 })
 
 const store = configureStore({
