@@ -1,7 +1,7 @@
 import React from 'react'
 
 const classNameDefault = [
-    "col-md-12 col-12 mt-3", "", "form-control"
+    "row mt-3", "col-md-6 col-12", "col-md-6 col-12"
 ]
 
 const SelectWithLabel = (props) => {
@@ -9,28 +9,37 @@ const SelectWithLabel = (props) => {
     const { options = [], name = "", id = "", label = "", isRequired = false, isDisabled = false, isHidden = false, isReadOnly = false } = feild
     return (
         <div className={className[0]}>
-            <label
-                htmlFor={id || name}
-                className={className[1]}>{label}
-                {isRequired && <span />}</label>
-
-            <select
-                id={id || name}
-                name={name}
-                className={className[2]}
-                value={state?.[name]}
-
-                onChange={onChangeHandler}
-                disabled={isDisabled}
-                hidden={isHidden}
-                readOnly={isReadOnly}
-                required={isRequired}
+            <div
+                className={className[1]}
             >
-                <option value="" hidden>-</option>
-                {options.map((o) => (
-                    <option value={o.value} key={`option__${name}__${o.value}`}>{o.name}</option>
-                ))}
-            </select>
+                <label
+                    htmlFor={id || name}
+                >{label}
+                    {isRequired && <span />}</label>
+            </div>
+
+            <div
+                className={className[2]}
+            >
+                <select
+                    id={id || name}
+                    name={name}
+                    className={'form-control'}
+                    value={state?.[name]}
+
+                    onChange={onChangeHandler}
+                    disabled={isDisabled}
+                    hidden={isHidden}
+                    readOnly={isReadOnly}
+                    required={isRequired}
+                >
+                    <option value="" hidden>-</option>
+                    {options.map((o) => (
+                        <option value={o.value} key={`option__${name}__${o.value}`}>{o.name}</option>
+                    ))}
+                </select>
+            </div>
+
         </div>)
 }
 

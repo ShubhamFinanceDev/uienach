@@ -181,7 +181,7 @@ const useLogicHooks = () => {
                 UAT_SIM: 'https://emandateut.hdfcbank.com/testingapi.aspx'
             }
 
-            const { data } = await axios.post(URL.UAT_SIM, formData)
+            const { data } = await axios.post(URL.UAT, formData)
 
         } catch (error) {
             ErrorHandler(error)
