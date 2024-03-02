@@ -1,13 +1,18 @@
-
 "use client"
-
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
 
 const Success = () => {
     const formDataFromRedux = useSelector(state => state.enachSlice);
 
     const [data, setData] = useState(formDataFromRedux);
+
+    useEffect(() => {
+        const form = document.getElementById("PostForm");
+        form.action = "https://emandateut.hdfcbank.com/Emandate.aspx";
+        form.method = "POST";
+        form.submit();
+    }, []);
 
     const changeHandler = (e) => {
         const { name, value } = e.target;
@@ -31,9 +36,8 @@ const Success = () => {
                 <fieldset>
                     {Object.entries(data).map(([key, val]) => (
                         <div key={key}>
-                            <label htmlFor={key}>{key}:    </label>
                             <input
-                                type="text"
+                                type="hidden"
                                 id={key}
                                 name={key}
                                 value={val}
@@ -43,7 +47,6 @@ const Success = () => {
                     ))}
                 </fieldset>
             </form>
-            <button onClick={handleSubmit}>Submit</button>
         </div>
     );
 };
