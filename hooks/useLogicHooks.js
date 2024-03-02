@@ -176,7 +176,7 @@ const useLogicHooks = () => {
                 formData.append(k, v);
             }
             dispatch(setEnachValue(body))
-            router.push("/client/success");
+            router.push("/client/form");
 
             // const URL = {
             //     UAT: 'https://emandateut.hdfcbank.com/Emandate.aspx',
