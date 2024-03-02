@@ -29,7 +29,7 @@ const initialState = {
     Customer_SequenceType: "RCUR",
     Customer_Reference1: "",
     Customer_Reference2: "",
-    Channel: "Net",     // Debit || Net
+    Channel: "",     // Debit || Net
     Filler1: "",
     Filler2: "",
     Filler3: "",
