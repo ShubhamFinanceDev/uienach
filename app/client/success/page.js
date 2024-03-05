@@ -1,9 +1,9 @@
 "use client"
 
 import { useSearchParams } from 'next/navigation'
-import React, { useEffect, useState } from 'react'
+import React, { Suspense, useEffect, useState } from 'react'
 
-const Success = () => {
+function Search() {
     const searchParams = useSearchParams()
     const [params, setParams] = useState({})
 
@@ -12,13 +12,19 @@ const Success = () => {
         setParams(para)
     }, [])
 
+    return (
+        <p>Response: {JSON.stringify(params)}</p>
+    )
+}
+
+const Success = () => {
+
 
     return (
-        <div>
+        <Suspense>
             <h1>Success page</h1>
-
-            <p>Response: {JSON.stringify(params)}</p>
-        </div>
+            <Search />
+        </Suspense>
     )
 }
 
