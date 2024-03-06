@@ -14,7 +14,13 @@ export async function POST(req) {
         formObjectString = formObjectString.join("&")
         // java api call
 
-        return NextResponse.redirect(`${process.env.NEXT_PUBLIC_APP_URL}/client/success`)
+        return new Response(null, {
+            status: 302,
+            headers: {
+                "Location": `http://144.24.96.140/client/success?${formObjectString}`
+            }
+        });
+
     } catch (error) {
         console.error('Error processing form data:', error);
         return NextResponse.json({ error: error })
