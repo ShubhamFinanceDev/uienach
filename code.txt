@@ -29,3 +29,28 @@ const formInput = [
     { type: 'text', info: 'plaintext', id: 'Filler9', label: 'Filler 9', name: 'Filler9' },
     { type: 'text', info: 'plaintext', id: 'Filler10', label: 'Filler 10', name: 'Filler10' },
 ]
+
+
+
+
+
+
+
+
+
+
+
+
+function Search() {
+    const searchParams = useSearchParams()
+    const [params, setParams] = useState({})
+
+    useEffect(() => {
+        const para = Object.fromEntries(searchParams.entries())
+        setParams(para)
+    }, [])
+
+    return (
+        <p>Response: {JSON.stringify(params)}</p>
+    )
+}

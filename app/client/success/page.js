@@ -1,10 +1,11 @@
-"use client"
-
 import React from 'react'
 
-const Success = () => {
+const Success = ({ searchParams }) => {
     return (
-        <div>page</div>
+        <div>
+            <h1>Success page</h1>
+            <p>Response: {JSON.stringify(searchParams)}</p>
+        </div>
     )
 }
 
