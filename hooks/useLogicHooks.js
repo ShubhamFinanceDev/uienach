@@ -175,16 +175,15 @@ const useLogicHooks = () => {
             for (const [k, v] of Object.entries(body)) {
                 formData.append(k, v);
             }
+
+            const date = new Date
+            await axios.post(api.communicateEnachPayment(), {
+                transactionNo: body.MsgId,
+                loanNo: enachState.loanNo,
+                transactionStartDate: date
+            })
             dispatch(setEnachValue(body))
             router.push("/client/form");
-
-            // const URL = {
-            //     UAT: 'https://emandateut.hdfcbank.com/Emandate.aspx',
-            //     UAT_SIM: 'https://emandateut.hdfcbank.com/testingapi.aspx'
-            // }
-
-            // const { data } = await axios.post(URL.UAT, formData)
-
         } catch (error) {
             ErrorHandler(error)
         }
