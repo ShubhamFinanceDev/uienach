@@ -5,6 +5,7 @@ import useLogicHooks from '@/hooks/useLogicHooks';
 import InputWithLabel from '@/components/input/InputWithLabel';
 import Branding from '@/components/core/Branding';
 import SelectWithLabel from '@/components/input/SelectWithLabel';
+import RadioWithLabel from '@/components/input/RadioWithLabel';
 
 const formInput = [
     { isReadOnly: true, type: 'text', info: 'Aesencrypted', id: 'Customer_Name', label: 'Account Holder Name', name: 'Customer_Name' },
@@ -73,7 +74,7 @@ const EnachClient = () => {
                     />
                 ))}
                 {selectPayment.map((d) => (
-                    <SelectWithLabel
+                    <RadioWithLabel
                         key={`form_input__${d.name}`}
                         feild={d}
                         state={enachState}
