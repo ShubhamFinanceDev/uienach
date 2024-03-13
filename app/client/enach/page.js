@@ -65,16 +65,17 @@ const EnachClient = () => {
                         onChangeHandler={enachChangeHandler}
                     />
                 ))}
-                {selectInput.map((d) => (
-                    <SelectWithLabel
+
+                {selectPayment.map((d) => (
+                    <RadioWithLabel
                         key={`form_input__${d.name}`}
                         feild={d}
                         state={enachState}
                         onChangeHandler={enachChangeHandler}
                     />
                 ))}
-                {selectPayment.map((d) => (
-                    <RadioWithLabel
+                                {selectInput.map((d) => (
+                    <SelectWithLabel
                         key={`form_input__${d.name}`}
                         feild={d}
                         state={enachState}

@@ -68,10 +68,10 @@ const ClientAuthPage = () => {
                         <p className='info'>By clicking Submit, you agree to the <a href="https://shubham.co/terms-and-conditions.php" target="_blank">Terms and Conditions</a> &amp; <a href="https://shubham.co/privacy-policy.php" target="_blank">Privacy Policy</a> of Shubham Housing Development Finance Company Ltd.</p>
                     </div>
 
-                    <div className='mt-4'>
-                        <button className='btn btn-primary' type="submit">Submit</button>
-                        <button className='btn' type='button' onClick={requestOTPHandler}>Resend OTP</button>
-                    </div>
+                    <div className='mt-2'>
+    <button className='btn btn-primary' type="submit">Submit</button>
+    <button className='btn btn-secondary gapinbutton' type='button' onClick={requestOTPHandler}>Resend OTP</button>
+</div>
 
                 </form> : <></>}
         </div>
