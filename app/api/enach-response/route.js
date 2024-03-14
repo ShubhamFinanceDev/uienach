@@ -16,11 +16,11 @@ export async function POST(req) {
         const parsedObject = JSON.parse(jsonString);
 
         const { MsgId, Status = "Something went wrong!", Errors = {} } = parsedObject;
-        const { data } = await axios.put(api.enachPaymentStatus(MsgId), { transactionStatus: Status });
+        const { data: { loanNo = "" } } = await axios.put(api.enachPaymentStatus(MsgId), { transactionStatus: Status });
 
-        let loanNo = data.loanNo;
-        const msgID = parsedObject.MsgId;
-        
+        const transactionQuery = `loanNo=${loanNo}&MsgId=${MsgId}`
+
+
         if (Status === 'Failed') {
             let errorObject = []
             for (const error of Errors) {
@@ -31,20 +31,14 @@ export async function POST(req) {
             return new Response(null, {
                 status: 302,
                 headers: {
-                    "Location": `http://144.24.96.140/client/failed?${errorObjectString}`
+                    "Location": `http://144.24.96.140/client/failed?${errorObjectString}&${transactionQuery}`
                 }
             });
         } else {
-            let successUrl = `http://144.24.96.140/client/success`;
-            if (loanNo) {
-                successUrl += `?loanNo=${loanNo}&${msgID}`;
-                
-            }
-
             return new Response(null, {
                 status: 302,
                 headers: {
-                    "Location": successUrl
+                    "Location": `http://144.24.96.140/client/success?${transactionQuery}`
                 }
             });
         }
