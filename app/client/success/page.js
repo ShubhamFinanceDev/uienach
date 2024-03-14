@@ -10,7 +10,7 @@ const Success = ({ searchParams }) => {
             >
                 Enach registration successfully completed.
             </h1>
-            <p className='mt-3'>for Loan No. {loanNo} and generated transaction no is {MsgId}.</p>
+            <p className='mt-3'>Reference transaction No. {MsgId} for loan no. {loanNo}.</p>
         </div>
     );
 }
