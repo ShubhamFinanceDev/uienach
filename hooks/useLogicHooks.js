@@ -44,7 +44,6 @@ const userDetailsInitialState = {
     confirmApplicationNumber: "",
     otp: "",
 
-
     custName: "",
     loanNo: "",
     mobile: "",
@@ -132,7 +131,8 @@ const useLogicHooks = () => {
                     Customer_Mobile: mobileNo,
                     Customer_StartDate: formatDate(startDate),
                     Customer_ExpiryDate: formatDate(expiryDate),
-                    Customer_DebitAmount: formatDecimal(amount),
+                    // Customer_MaxAmount: formatDecimal(amount),
+                    // Customer_DebitAmount: formatDecimal(amount),
                 }
 
                 Cookies.set("user_data", JSON.stringify(userData))
@@ -164,7 +164,7 @@ const useLogicHooks = () => {
 
             body.MsgId = uniqueMsgID()
 
-            const inputForAES256 = ['UtilCode', 'Short_Code', 'Customer_Name', 'Customer_EmailId', 'Customer_Mobile', 'Customer_AccountNo', 'Customer_Reference1', 'Customer_Reference2',]
+            const inputForAES256 = ['UtilCode', 'Short_Code', 'Customer_Name', 'Customer_EmailId', 'Customer_Mobile', 'Customer_AccountNo', 'Customer_Reference1', 'Customer_Reference2','Customer_MaxAmount']
 
             for (const k of inputForAES256) {
                 body[k] = AES256Encryptor(body[k])
@@ -189,8 +189,27 @@ const useLogicHooks = () => {
         }
     }
 
-
-
+    const handleMandateTypeChange = async (selectedMandateType) => {
+        try {
+            const { loanNo, Customer_DebitFrequency } = enachState;
+            await selectedMandateType.value;
+    
+            const { data } = await axios.get(api.enachmandateType(), {
+                params: {
+                    mandateType: Customer_DebitFrequency,
+                    loanNo: loanNo
+                }
+            });
+            console.log(data);
+    
+            setEnachState(prevState => ({
+                ...prevState,
+                Customer_MaxAmount: data.amount
+            }));
+        } catch (error) {
+            console.error('Error fetching mandate type:', error);
+        }
+    };
 
 
     return ({
@@ -198,7 +217,7 @@ const useLogicHooks = () => {
 
 
         requestOTPHandler, validateOTPHandler, enachSubmitHandler,
-        retrieveData,
+        retrieveData,handleMandateTypeChange,
 
         enachChangeHandler: (e) => changeHandlerHelper(e, enachState, setEnachState),
         userDetailChangeHandler: (e) => changeHandlerHelper(e, userDetailState, setUserDetailState)

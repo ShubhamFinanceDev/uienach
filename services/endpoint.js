@@ -3,7 +3,9 @@ export const api = {
     validateOTP: () => `/otpVerification`,
 
     communicateEnachPayment: () => `/enachPayment`,
-    enachPaymentStatus: (msgID) => `/enachPaymentStatus/${msgID}`
+    enachPaymentStatus: (msgID) => `/enachPaymentStatus/${msgID}`,
+    
+    enachmandateType: () => `/mandateType`
 
 
 }

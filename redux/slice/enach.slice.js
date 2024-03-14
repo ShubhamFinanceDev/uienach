@@ -7,6 +7,7 @@ const initialState = {
     Customer_AccountNo: "",       //c
     Customer_InstructedMemberId: "", // IFSC Code        cc
     Filler5: "",       // “S” for Savings , “C” for Current or “O” “Other”
+    
 
 
 
@@ -25,7 +26,7 @@ const initialState = {
     Customer_ExpiryDate: "",
     Customer_DebitAmount: "",
     Customer_MaxAmount: "",
-    Customer_DebitFrequency: "MNTH",
+    Customer_DebitFrequency: "",
     Customer_SequenceType: "RCUR",
     Customer_Reference1: "",
     Customer_Reference2: "",
