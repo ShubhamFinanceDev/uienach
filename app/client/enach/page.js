@@ -19,6 +19,7 @@ const formInput2 = [
     { isReadOnly: true, type: 'date', info: 'yyyy-MM-dd', id: 'Customer_StartDate', label: 'Start Date', name: 'Customer_StartDate' },
     { isReadOnly: true, type: 'date', info: 'yyyy-MM-dd', id: 'Customer_ExpiryDate', label: 'Expiry Date', name: 'Customer_ExpiryDate' },
     { isReadOnly: true, type: 'number', info: 'decimal', id: 'Customer_MaxAmount', label: 'Sensation Amount', name: 'Customer_MaxAmount' },
+// {  type: 'number', info: 'decimal', id: 'Customer_DebitAmount', label: 'Sensation Amount', name: 'Customer_DebitAmount' },
 ];
 
 const selectInput = [
@@ -65,8 +66,8 @@ const EnachClient = () => {
         <div className='container'>
                         {/* <div>
                 Customer Max Amount: {enachState.Customer_MaxAmount}
-            </div>
-            {JSON.stringify(enachState)} */}
+            </div> */}
+            {JSON.stringify(enachState)}
             <Branding />
             <form className="row" onSubmit={enachSubmitHandler}>
                 {formInput.map((d) => (
@@ -82,9 +83,10 @@ const EnachClient = () => {
                         key={`form_input__${d.name}`}
                         feild={d}
                         state={enachState}
-                        onChangeHandler={(value) => {
-                            enachChangeHandler(value);
-                            handleMandateTypeChange(value);
+                        onChangeHandler={(e) => {
+                            enachChangeHandler(e);
+                            console.log(e.target.value)
+                            handleMandateTypeChange(e);
                         }}
                     />
                 ))}

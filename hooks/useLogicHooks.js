@@ -158,7 +158,8 @@ const useLogicHooks = () => {
             const body = { ...enachState }
             delete body.loanNo
 
-            const { Customer_AccountNo, Customer_StartDate, Customer_ExpiryDate, Customer_DebitAmount, Customer_MaxAmount } = enachState
+            const { Customer_AccountNo, Customer_StartDate, Customer_ExpiryDate, Customer_DebitAmount, Customer_MaxAmount} = enachState
+            console.log (enachState)
 
             body.CheckSum = SHA256Hash([Customer_AccountNo, Customer_StartDate, Customer_ExpiryDate, Customer_DebitAmount, Customer_MaxAmount])
 
@@ -189,18 +190,17 @@ const useLogicHooks = () => {
         }
     }
 
-    const handleMandateTypeChange = async (selectedMandateType) => {
+    const handleMandateTypeChange = async (e) => {
         try {
-            const { loanNo, Customer_DebitFrequency } = enachState;
-            await selectedMandateType.value;
+             const mandateType = e?.target?.value || "MNTH"
+            const { loanNo } = enachState;
     
             const { data } = await axios.get(api.enachmandateType(), {
                 params: {
-                    mandateType: Customer_DebitFrequency,
-                    loanNo: loanNo
+                    mandateType,loanNo
                 }
             });
-            console.log(data);
+            // console.log(data);
     
             setEnachState(prevState => ({
                 ...prevState,
