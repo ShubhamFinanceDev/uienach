@@ -4,11 +4,11 @@ const SHORT_CODE = process.env.NEXT_PUBLIC_SHORT_CODE
 const MERCHANT_CATEGORY_CODE = process.env.NEXT_PUBLIC_MERCHANT_CATEGORY_CODE
 
 const initialState = {
-    Customer_AccountNo: "50200003144866",
-    Customer_InstructedMemberId: "HDFC0003354",
+    // Customer_AccountNo: "50200003144866",
+    // Customer_InstructedMemberId: "HDFC0003354",
 
-    // Customer_AccountNo: "",
-    // Customer_InstructedMemberId: "",
+    Customer_AccountNo: "",
+    Customer_InstructedMemberId: "",
     Filler5: "",       // “S” for Savings , “C” for Current or “O” “Other”
 
 
