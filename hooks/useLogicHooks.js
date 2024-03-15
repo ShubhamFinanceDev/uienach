@@ -13,6 +13,9 @@ import { setEnachValue } from '@/redux/slice/enach.slice'
 import Cookies from 'js-cookie'
 
 
+const MERCHANT_CATEGORY_CODE = process.env.NEXT_PUBLIC_MERCHANT_CATEGORY_CODE
+const MERCHANT_SECURITY_CATEGORY_CODE = process.env.NEXT_PUBLIC_MERCHANT_SECURITY_CATEGORY_CODE
+
 function formatDate(dateString) {
     const date = new Date(dateString);
     const year = date.getFullYear();
@@ -131,8 +134,6 @@ const useLogicHooks = () => {
                     Customer_Mobile: mobileNo,
                     Customer_StartDate: formatDate(startDate),
                     Customer_ExpiryDate: formatDate(expiryDate),
-                    // Customer_MaxAmount: formatDecimal(amount),
-                    // Customer_DebitAmount: formatDecimal(amount),
                 }
 
                 Cookies.set("user_data", JSON.stringify(userData))
@@ -165,7 +166,7 @@ const useLogicHooks = () => {
 
             body.MsgId = uniqueMsgID()
 
-            const inputForAES256 = ['UtilCode', 'Short_Code', 'Customer_Name', 'Customer_EmailId', 'Customer_Mobile', 'Customer_AccountNo', 'Customer_Reference1', 'Customer_Reference2', 'Customer_MaxAmount']
+            const inputForAES256 = ['UtilCode', 'Short_Code', 'Customer_Name', 'Customer_EmailId', 'Customer_Mobile', 'Customer_AccountNo', 'Customer_Reference1', 'Customer_Reference2']
 
             for (const k of inputForAES256) {
                 body[k] = AES256Encryptor(body[k])
@@ -190,71 +191,37 @@ const useLogicHooks = () => {
         }
     }
 
-    const handleMandateTypeChange = async (e) => {
+    const debitFrequencyChangeHandler = async (e) => {
         try {
-            const mandateType = e?.target?.value || "MNTH"
-            const { loanNo } = enachState;
+            const { value, name } = e.target
+            const prevState = { ...enachState }
 
-            const { data } = await axios.get(api.enachmandateType(), {
+            const body = {
                 params: {
-                    mandateType, loanNo
+                    mandateType: value,
+                    loanNo: prevState.loanNo
                 }
-            });
-
-            setEnachState(prevState => ({
-                ...prevState,
-                Customer_MaxAmount: formatDecimal(data.amount)
-            }));
-        } catch (error) {
-            console.error('Error fetching mandate type:', error);
-        }
-    };
-
-    const merchantCategoryCodeHandler = async (e) => {
-        try {
-            const mandateType = e?.target?.value || "MNTH";
-
-            let merchantCategoryCodeToUpdate = process.env.NEXT_PUBLIC_MERCHANT_CATEGORY_CODE;
-            if (mandateType === 'MNTH') {
-                merchantCategoryCodeToUpdate = process.env.NEXT_PUBLIC_MERCHANT_CATEGORY_CODE;
-            } else if (mandateType === 'ADHO') {
-                merchantCategoryCodeToUpdate = process.env.NEXT_PUBLIC_MERCHANT_CATEGORY_CODE_1;
             }
+            const { data } = await axios.get(api.enachmandateType(), body);
 
-            setEnachState(prevState => ({
-                ...prevState,
-                Merchant_Category_Code: merchantCategoryCodeToUpdate
-            }));
-            dispatch(setEnachValue({ Merchant_Category_Code: merchantCategoryCodeToUpdate }));
-        } catch (error) {
-            console.error('Error fetching mandate type:', error);
-        }
-    };
+            prevState[name] = value
+            prevState.Customer_MaxAmount = formatDecimal(data?.amount)
 
+            if (value === 'MNTH') {
+                prevState.Merchant_Category_Code = MERCHANT_CATEGORY_CODE
+                prevState.Customer_Reference1 = "";
 
-    const customerReference1Handler = async (e) => {
-        try {
-            const mandateType = e?.target?.value || "MNTH";
-            let Customer_Reference1 = ""
-            if (mandateType === 'MNTH') {
-                Customer_Reference1 = "";
+            } else {
+                prevState.Merchant_Category_Code = MERCHANT_SECURITY_CATEGORY_CODE
+                prevState.Customer_Reference1 = 'Loan amount security';
 
-            } else if (mandateType === 'ADHO') {
-                Customer_Reference1 = 'Loan amount security';
             }
-
-            setEnachState(prevState => ({
-                ...prevState,
-                Customer_Reference1: Customer_Reference1
-            }));
-            console.log(Customer_Reference1)
-            dispatch(setEnachValue({ Customer_Reference1: Customer_Reference1 }));
+            setEnachState(prevState);
         } catch (error) {
-            console.error('Error fetching mandate type:', error);
+            ErrorHandler(error)
         }
-    };
 
-    
+    }
 
 
     return ({
@@ -262,7 +229,7 @@ const useLogicHooks = () => {
 
 
         requestOTPHandler, validateOTPHandler, enachSubmitHandler,
-        retrieveData, handleMandateTypeChange,merchantCategoryCodeHandler,customerReference1Handler,
+        retrieveData, debitFrequencyChangeHandler,
 
         enachChangeHandler: (e) => changeHandlerHelper(e, enachState, setEnachState),
         userDetailChangeHandler: (e) => changeHandlerHelper(e, userDetailState, setUserDetailState)

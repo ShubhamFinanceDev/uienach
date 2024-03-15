@@ -26,9 +26,9 @@ function SHA256Hash(input = []) {
 
 
 function uniqueMsgID() {
-    let d = new Date
-    d = d.toLocaleString()
-    return d.replace(/\D/g, '');
+    const bytes = crypto.randomBytes(Math.ceil(24 / 2));
+    const hexString = bytes.toString('hex').slice(0, 24);
+    return hexString;
 }
 
 

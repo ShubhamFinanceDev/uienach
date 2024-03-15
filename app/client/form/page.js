@@ -1,6 +1,11 @@
 "use client"
+
 import React, { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
+
+
+const UAT_URL = 'https://emandateut.hdfcbank.com/Emandate.aspx'
+const Production_URL = 'https://emandate.hdfcbank.com/Emandate.aspx'
 
 const Form = () => {
     const formDataFromRedux = useSelector(state => state.enachSlice);
@@ -9,7 +14,7 @@ const Form = () => {
 
     useEffect(() => {
         const form = document.getElementById("PostForm");
-        form.action = "https://emandate.hdfcbank.com/Emandate.aspx";
+        form.action = UAT_URL;
         form.method = "POST";
         form.submit();
     }, []);

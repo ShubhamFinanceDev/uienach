@@ -50,7 +50,7 @@ const selectMandateType = [
 
 const EnachClient = () => {
     const router = useRouter();
-    const { enachState, retrieveData, enachChangeHandler, enachSubmitHandler, handleMandateTypeChange,merchantCategoryCodeHandler, customerReference1Handler } = useLogicHooks()
+    const { enachState, retrieveData, enachChangeHandler, enachSubmitHandler, debitFrequencyChangeHandler } = useLogicHooks()
 
     useEffect(() => {
         retrieveData();
@@ -75,13 +75,7 @@ const EnachClient = () => {
                         key={`form_input__${d.name}`}
                         feild={d}
                         state={enachState}
-                        onChangeHandler={(e) => {
-                            enachChangeHandler(e);
-                            console.log(e.target.value)
-                            handleMandateTypeChange(e)
-                            merchantCategoryCodeHandler(e);
-                            customerReference1Handler(e);
-                        }}
+                        onChangeHandler={debitFrequencyChangeHandler}
                     />
                 ))}
                 {selectPayment.map((d) => (
@@ -100,14 +94,6 @@ const EnachClient = () => {
                         onChangeHandler={enachChangeHandler}
                     />
                 ))}
-                {/* {selectPayment.map((d) => (
-                    <SelectWithLabel
-                        key={`form_input__${d.name}`}
-                        feild={d}
-                        state={enachState}
-                        onChangeHandler={enachChangeHandler}
-                    />
-                ))} */}
                 {formInput2.map((d) => (
                     <InputWithLabel
                         key={`form_input__${d.name}`}
