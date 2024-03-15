@@ -19,7 +19,7 @@ const formInput2 = [
     { isReadOnly: true, type: 'date', info: 'yyyy-MM-dd', id: 'Customer_StartDate', label: 'Start Date', name: 'Customer_StartDate' },
     { isReadOnly: true, type: 'date', info: 'yyyy-MM-dd', id: 'Customer_ExpiryDate', label: 'Expiry Date', name: 'Customer_ExpiryDate' },
     { isReadOnly: true, type: 'number', info: 'decimal', id: 'Customer_MaxAmount', label: 'Sensation Amount', name: 'Customer_MaxAmount' },
-// {  type: 'number', info: 'decimal', id: 'Customer_DebitAmount', label: 'Sensation Amount', name: 'Customer_DebitAmount' },
+    // {  type: 'number', info: 'decimal', id: 'Customer_DebitAmount', label: 'Sensation Amount', name: 'Customer_DebitAmount' },
 ];
 
 const selectInput = [
@@ -56,17 +56,9 @@ const EnachClient = () => {
         retrieveData();
     }, []);
 
-    // const enachSubmitHandler = (event) => {
-    //     event.preventDefault();
-
-    //     router.push("/client/success");
-    // };
 
     return (
         <div className='container'>
-                        {/* <div>
-                Customer Max Amount: {enachState.Customer_MaxAmount}
-            </div> */}
             {JSON.stringify(enachState)}
             <Branding />
             <form className="row" onSubmit={enachSubmitHandler}>

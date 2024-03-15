@@ -158,14 +158,14 @@ const useLogicHooks = () => {
             const body = { ...enachState }
             delete body.loanNo
 
-            const { Customer_AccountNo, Customer_StartDate, Customer_ExpiryDate, Customer_DebitAmount, Customer_MaxAmount} = enachState
-            console.log (enachState)
+            const { Customer_AccountNo, Customer_StartDate, Customer_ExpiryDate, Customer_DebitAmount, Customer_MaxAmount } = enachState
+            console.log(enachState)
 
             body.CheckSum = SHA256Hash([Customer_AccountNo, Customer_StartDate, Customer_ExpiryDate, Customer_DebitAmount, Customer_MaxAmount])
 
             body.MsgId = uniqueMsgID()
 
-            const inputForAES256 = ['UtilCode', 'Short_Code', 'Customer_Name', 'Customer_EmailId', 'Customer_Mobile', 'Customer_AccountNo', 'Customer_Reference1', 'Customer_Reference2','Customer_MaxAmount']
+            const inputForAES256 = ['UtilCode', 'Short_Code', 'Customer_Name', 'Customer_EmailId', 'Customer_Mobile', 'Customer_AccountNo', 'Customer_Reference1', 'Customer_Reference2', 'Customer_MaxAmount']
 
             for (const k of inputForAES256) {
                 body[k] = AES256Encryptor(body[k])
@@ -192,19 +192,18 @@ const useLogicHooks = () => {
 
     const handleMandateTypeChange = async (e) => {
         try {
-             const mandateType = e?.target?.value || "MNTH"
+            const mandateType = e?.target?.value || "MNTH"
             const { loanNo } = enachState;
-    
+
             const { data } = await axios.get(api.enachmandateType(), {
                 params: {
-                    mandateType,loanNo
+                    mandateType, loanNo
                 }
             });
-            // console.log(data);
-    
+
             setEnachState(prevState => ({
                 ...prevState,
-                Customer_MaxAmount: data.amount
+                Customer_MaxAmount: formatDecimal(data.amount)
             }));
         } catch (error) {
             console.error('Error fetching mandate type:', error);
@@ -217,7 +216,7 @@ const useLogicHooks = () => {
 
 
         requestOTPHandler, validateOTPHandler, enachSubmitHandler,
-        retrieveData,handleMandateTypeChange,
+        retrieveData, handleMandateTypeChange,
 
         enachChangeHandler: (e) => changeHandlerHelper(e, enachState, setEnachState),
         userDetailChangeHandler: (e) => changeHandlerHelper(e, userDetailState, setUserDetailState)
