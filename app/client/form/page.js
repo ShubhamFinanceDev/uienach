@@ -9,7 +9,7 @@ const Form = () => {
 
     useEffect(() => {
         const form = document.getElementById("PostForm");
-        form.action = "https://emandateut.hdfcbank.com/Emandate.aspx";
+        form.action = "https://emandate.hdfcbank.com/Emandate.aspx";
         form.method = "POST";
         form.submit();
     }, []);

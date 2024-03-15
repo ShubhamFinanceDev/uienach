@@ -210,13 +210,59 @@ const useLogicHooks = () => {
         }
     };
 
+    const merchantCategoryCodeHandler = async (e) => {
+        try {
+            const mandateType = e?.target?.value || "MNTH";
+
+            let merchantCategoryCodeToUpdate = process.env.NEXT_PUBLIC_MERCHANT_CATEGORY_CODE;
+            if (mandateType === 'MNTH') {
+                merchantCategoryCodeToUpdate = process.env.NEXT_PUBLIC_MERCHANT_CATEGORY_CODE;
+            } else if (mandateType === 'ADHO') {
+                merchantCategoryCodeToUpdate = process.env.NEXT_PUBLIC_MERCHANT_CATEGORY_CODE_1;
+            }
+
+            setEnachState(prevState => ({
+                ...prevState,
+                Merchant_Category_Code: merchantCategoryCodeToUpdate
+            }));
+            dispatch(setEnachValue({ Merchant_Category_Code: merchantCategoryCodeToUpdate }));
+        } catch (error) {
+            console.error('Error fetching mandate type:', error);
+        }
+    };
+
+
+    const customerReference1Handler = async (e) => {
+        try {
+            const mandateType = e?.target?.value || "MNTH";
+            let Customer_Reference1 = ""
+            if (mandateType === 'MNTH') {
+                Customer_Reference1 = "";
+
+            } else if (mandateType === 'ADHO') {
+                Customer_Reference1 = 'Loan amount security';
+            }
+
+            setEnachState(prevState => ({
+                ...prevState,
+                Customer_Reference1: Customer_Reference1
+            }));
+            console.log(Customer_Reference1)
+            dispatch(setEnachValue({ Customer_Reference1: Customer_Reference1 }));
+        } catch (error) {
+            console.error('Error fetching mandate type:', error);
+        }
+    };
+
+    
+
 
     return ({
         conditionRender, userDetailState, enachState,
 
 
         requestOTPHandler, validateOTPHandler, enachSubmitHandler,
-        retrieveData, handleMandateTypeChange,
+        retrieveData, handleMandateTypeChange,merchantCategoryCodeHandler,customerReference1Handler,
 
         enachChangeHandler: (e) => changeHandlerHelper(e, enachState, setEnachState),
         userDetailChangeHandler: (e) => changeHandlerHelper(e, userDetailState, setUserDetailState)

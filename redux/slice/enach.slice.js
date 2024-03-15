@@ -1,7 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit'
 const UTIL_CODE = process.env.NEXT_PUBLIC_UTIL_CODE
 const SHORT_CODE = process.env.NEXT_PUBLIC_SHORT_CODE
-const MERCHANT_CATEGORY_CODE = process.env.NEXT_PUBLIC_MERCHANT_CATEGORY_CODE
+// const MERCHANT_CATEGORY_CODE = process.env.NEXT_PUBLIC_MERCHANT_CATEGORY_CODE
 
 const initialState = {
     // Customer_AccountNo: "50200003144866",
@@ -16,7 +16,8 @@ const initialState = {
 
     UtilCode: UTIL_CODE,
     Short_Code: SHORT_CODE,
-    Merchant_Category_Code: MERCHANT_CATEGORY_CODE,
+    // Merchant_Category_Code:MERCHANT_CATEGORY_CODE,
+     Merchant_Category_Code:"",
 
     CheckSum: "",
 

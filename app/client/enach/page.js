@@ -50,7 +50,7 @@ const selectMandateType = [
 
 const EnachClient = () => {
     const router = useRouter();
-    const { enachState, retrieveData, enachChangeHandler, enachSubmitHandler, handleMandateTypeChange } = useLogicHooks()
+    const { enachState, retrieveData, enachChangeHandler, enachSubmitHandler, handleMandateTypeChange,merchantCategoryCodeHandler, customerReference1Handler } = useLogicHooks()
 
     useEffect(() => {
         retrieveData();
@@ -59,7 +59,7 @@ const EnachClient = () => {
 
     return (
         <div className='container'>
-            {JSON.stringify(enachState)}
+            {/* {JSON.stringify(enachState)} */}
             <Branding />
             <form className="row" onSubmit={enachSubmitHandler}>
                 {formInput.map((d) => (
@@ -78,7 +78,9 @@ const EnachClient = () => {
                         onChangeHandler={(e) => {
                             enachChangeHandler(e);
                             console.log(e.target.value)
-                            handleMandateTypeChange(e);
+                            handleMandateTypeChange(e)
+                            merchantCategoryCodeHandler(e);
+                            customerReference1Handler(e);
                         }}
                     />
                 ))}
