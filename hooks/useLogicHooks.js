@@ -44,7 +44,6 @@ const userDetailsInitialState = {
     confirmApplicationNumber: "",
     otp: "",
 
-
     custName: "",
     loanNo: "",
     mobile: "",
@@ -132,7 +131,8 @@ const useLogicHooks = () => {
                     Customer_Mobile: mobileNo,
                     Customer_StartDate: formatDate(startDate),
                     Customer_ExpiryDate: formatDate(expiryDate),
-                    Customer_DebitAmount: formatDecimal(amount),
+                    // Customer_MaxAmount: formatDecimal(amount),
+                    // Customer_DebitAmount: formatDecimal(amount),
                 }
 
                 Cookies.set("user_data", JSON.stringify(userData))
@@ -159,12 +159,13 @@ const useLogicHooks = () => {
             delete body.loanNo
 
             const { Customer_AccountNo, Customer_StartDate, Customer_ExpiryDate, Customer_DebitAmount, Customer_MaxAmount } = enachState
+            console.log(enachState)
 
             body.CheckSum = SHA256Hash([Customer_AccountNo, Customer_StartDate, Customer_ExpiryDate, Customer_DebitAmount, Customer_MaxAmount])
 
             body.MsgId = uniqueMsgID()
 
-            const inputForAES256 = ['UtilCode', 'Short_Code', 'Customer_Name', 'Customer_EmailId', 'Customer_Mobile', 'Customer_AccountNo', 'Customer_Reference1', 'Customer_Reference2',]
+            const inputForAES256 = ['UtilCode', 'Short_Code', 'Customer_Name', 'Customer_EmailId', 'Customer_Mobile', 'Customer_AccountNo', 'Customer_Reference1', 'Customer_Reference2', 'Customer_MaxAmount']
 
             for (const k of inputForAES256) {
                 body[k] = AES256Encryptor(body[k])
@@ -189,8 +190,71 @@ const useLogicHooks = () => {
         }
     }
 
+    const handleMandateTypeChange = async (e) => {
+        try {
+            const mandateType = e?.target?.value || "MNTH"
+            const { loanNo } = enachState;
+
+            const { data } = await axios.get(api.enachmandateType(), {
+                params: {
+                    mandateType, loanNo
+                }
+            });
+
+            setEnachState(prevState => ({
+                ...prevState,
+                Customer_MaxAmount: formatDecimal(data.amount)
+            }));
+        } catch (error) {
+            console.error('Error fetching mandate type:', error);
+        }
+    };
+
+    const merchantCategoryCodeHandler = async (e) => {
+        try {
+            const mandateType = e?.target?.value || "MNTH";
+
+            let merchantCategoryCodeToUpdate = process.env.NEXT_PUBLIC_MERCHANT_CATEGORY_CODE;
+            if (mandateType === 'MNTH') {
+                merchantCategoryCodeToUpdate = process.env.NEXT_PUBLIC_MERCHANT_CATEGORY_CODE;
+            } else if (mandateType === 'ADHO') {
+                merchantCategoryCodeToUpdate = process.env.NEXT_PUBLIC_MERCHANT_CATEGORY_CODE_1;
+            }
+
+            setEnachState(prevState => ({
+                ...prevState,
+                Merchant_Category_Code: merchantCategoryCodeToUpdate
+            }));
+            dispatch(setEnachValue({ Merchant_Category_Code: merchantCategoryCodeToUpdate }));
+        } catch (error) {
+            console.error('Error fetching mandate type:', error);
+        }
+    };
 
 
+    const customerReference1Handler = async (e) => {
+        try {
+            const mandateType = e?.target?.value || "MNTH";
+            let Customer_Reference1 = ""
+            if (mandateType === 'MNTH') {
+                Customer_Reference1 = "";
+
+            } else if (mandateType === 'ADHO') {
+                Customer_Reference1 = 'Loan amount security';
+            }
+
+            setEnachState(prevState => ({
+                ...prevState,
+                Customer_Reference1: Customer_Reference1
+            }));
+            console.log(Customer_Reference1)
+            dispatch(setEnachValue({ Customer_Reference1: Customer_Reference1 }));
+        } catch (error) {
+            console.error('Error fetching mandate type:', error);
+        }
+    };
+
+    
 
 
     return ({
@@ -198,7 +262,7 @@ const useLogicHooks = () => {
 
 
         requestOTPHandler, validateOTPHandler, enachSubmitHandler,
-        retrieveData,
+        retrieveData, handleMandateTypeChange,merchantCategoryCodeHandler,customerReference1Handler,
 
         enachChangeHandler: (e) => changeHandlerHelper(e, enachState, setEnachState),
         userDetailChangeHandler: (e) => changeHandlerHelper(e, userDetailState, setUserDetailState)

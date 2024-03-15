@@ -18,7 +18,8 @@ const formInput2 = [
     { isRequired: true, type: 'text', info: 'plain text', id: 'Customer_InstructedMemberId', label: 'IFSC Code', name: 'Customer_InstructedMemberId' },
     { isReadOnly: true, type: 'date', info: 'yyyy-MM-dd', id: 'Customer_StartDate', label: 'Start Date', name: 'Customer_StartDate' },
     { isReadOnly: true, type: 'date', info: 'yyyy-MM-dd', id: 'Customer_ExpiryDate', label: 'Expiry Date', name: 'Customer_ExpiryDate' },
-    { isReadOnly: true, type: 'number', info: 'decimal', id: 'Customer_DebitAmount', label: 'EMI Amount (Double Amount)', name: 'Customer_DebitAmount' },
+    { isReadOnly: true, type: 'number', info: 'decimal', id: 'Customer_MaxAmount', label: 'Sensation Amount', name: 'Customer_MaxAmount' },
+    // {  type: 'number', info: 'decimal', id: 'Customer_DebitAmount', label: 'Sensation Amount', name: 'Customer_DebitAmount' },
 ];
 
 const selectInput = [
@@ -38,23 +39,27 @@ const selectPayment = [
         ], isRequired: true, info: 'plaintext', id: 'Channel', label: 'Payment Method', name: 'Channel'
     },
 ];
+const selectMandateType = [
+    {
+        options: [
+            { name: "E-Mandate", value: "MNTH" },
+            { name: "Security-Mandate", value: "ADHO" }
+        ], isRequired: true, info: 'plaintext', id: 'Customer_DebitFrequency', label: 'Mandate Type', name: 'Customer_DebitFrequency'
+    },
+];
 
 const EnachClient = () => {
     const router = useRouter();
-    const { enachState, retrieveData, enachChangeHandler, enachSubmitHandler } = useLogicHooks()
+    const { enachState, retrieveData, enachChangeHandler, enachSubmitHandler, handleMandateTypeChange,merchantCategoryCodeHandler, customerReference1Handler } = useLogicHooks()
 
     useEffect(() => {
         retrieveData();
     }, []);
 
-    // const enachSubmitHandler = (event) => {
-    //     event.preventDefault();
-
-    //     router.push("/client/success");
-    // };
 
     return (
         <div className='container'>
+            {/* {JSON.stringify(enachState)} */}
             <Branding />
             <form className="row" onSubmit={enachSubmitHandler}>
                 {formInput.map((d) => (
@@ -65,7 +70,20 @@ const EnachClient = () => {
                         onChangeHandler={enachChangeHandler}
                     />
                 ))}
-
+                {selectMandateType.map((d) => (
+                    <SelectWithLabel
+                        key={`form_input__${d.name}`}
+                        feild={d}
+                        state={enachState}
+                        onChangeHandler={(e) => {
+                            enachChangeHandler(e);
+                            console.log(e.target.value)
+                            handleMandateTypeChange(e)
+                            merchantCategoryCodeHandler(e);
+                            customerReference1Handler(e);
+                        }}
+                    />
+                ))}
                 {selectPayment.map((d) => (
                     <RadioWithLabel
                         key={`form_input__${d.name}`}
@@ -74,7 +92,7 @@ const EnachClient = () => {
                         onChangeHandler={enachChangeHandler}
                     />
                 ))}
-                                {selectInput.map((d) => (
+                {selectInput.map((d) => (
                     <SelectWithLabel
                         key={`form_input__${d.name}`}
                         feild={d}
@@ -96,6 +114,7 @@ const EnachClient = () => {
                         feild={d}
                         state={enachState}
                         onChangeHandler={enachChangeHandler}
+                        value={enachState.Customer_MaxAmount}
                     />
                 ))}
                 <div className="row">

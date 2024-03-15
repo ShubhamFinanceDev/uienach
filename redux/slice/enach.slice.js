@@ -1,18 +1,23 @@
 import { createSlice } from '@reduxjs/toolkit'
 const UTIL_CODE = process.env.NEXT_PUBLIC_UTIL_CODE
 const SHORT_CODE = process.env.NEXT_PUBLIC_SHORT_CODE
-const MERCHANT_CATEGORY_CODE = process.env.NEXT_PUBLIC_MERCHANT_CATEGORY_CODE
+// const MERCHANT_CATEGORY_CODE = process.env.NEXT_PUBLIC_MERCHANT_CATEGORY_CODE
 
 const initialState = {
-    Customer_AccountNo: "",       //c
-    Customer_InstructedMemberId: "", // IFSC Code        cc
+    // Customer_AccountNo: "50200003144866",
+    // Customer_InstructedMemberId: "HDFC0003354",
+
+    Customer_AccountNo: "",
+    Customer_InstructedMemberId: "",
     Filler5: "",       // “S” for Savings , “C” for Current or “O” “Other”
+
 
 
 
     UtilCode: UTIL_CODE,
     Short_Code: SHORT_CODE,
-    Merchant_Category_Code: MERCHANT_CATEGORY_CODE,
+    // Merchant_Category_Code:MERCHANT_CATEGORY_CODE,
+     Merchant_Category_Code:"",
 
     CheckSum: "",
 
@@ -25,7 +30,7 @@ const initialState = {
     Customer_ExpiryDate: "",
     Customer_DebitAmount: "",
     Customer_MaxAmount: "",
-    Customer_DebitFrequency: "MNTH",
+    Customer_DebitFrequency: "",
     Customer_SequenceType: "RCUR",
     Customer_Reference1: "",
     Customer_Reference2: "",
