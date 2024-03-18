@@ -14,7 +14,7 @@ const Form = () => {
 
     useEffect(() => {
         const form = document.getElementById("PostForm");
-        form.action = Production_URL;
+        form.action = UAT_URL;
         form.method = "POST";
         form.submit();
     }, []);
