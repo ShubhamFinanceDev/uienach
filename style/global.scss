@@ -248,7 +248,8 @@ main {
 
 .heading-middle {
   display: flex;
-  align-items: center;
-  justify-content: center;
-  margin: 20px 0; /* Add margin for spacing */
+  align-items: start;
+  justify-content: start;
+  margin: 20px 0; 
+  font-weight: bold;
 }

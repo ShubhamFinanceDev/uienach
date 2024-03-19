@@ -90,30 +90,30 @@ const EnachClient = () => {
                         onChangeHandler={enachChangeHandler}
                     />
                 ))}
-                <div style={{ margin: '20px 0' }}></div>
+                             {selectMandateType.map((d) => (
+                    <SelectWithLabel
+                        key={`form_input__${d.name}`}
+                        feild={d}
+                        state={enachState}
+                        onChangeHandler={debitFrequencyChangeHandler}
+                    />
+                ))}
+                <div className='heading-middle'>Bank Details:</div>
                 <hr/>
-                {selectgetLiveBankDtls.map((d) => (
-                    <SelectWithLabel
-                        key={`form_input__${d.name}`}
-                        feild={d}
-                        state={enachState}
-                        onChangeHandler={debitFrequencyChangeHandler}
-                    />
-                ))}
-                {selectMandateType.map((d) => (
-                    <SelectWithLabel
-                        key={`form_input__${d.name}`}
-                        feild={d}
-                        state={enachState}
-                        onChangeHandler={debitFrequencyChangeHandler}
-                    />
-                ))}
                 {selectPayment.map((d) => (
                     <RadioWithLabel
                         key={`form_input__${d.name}`}
                         feild={d}
                         state={enachState}
                         onChangeHandler={enachChangeHandler}
+                    />
+                ))}
+                {selectgetLiveBankDtls.map((d) => (
+                    <SelectWithLabel
+                        key={`form_input__${d.name}`}
+                        feild={d}
+                        state={enachState}
+                        onChangeHandler={debitFrequencyChangeHandler}
                     />
                 ))}
                 {selectInput.map((d) => (
