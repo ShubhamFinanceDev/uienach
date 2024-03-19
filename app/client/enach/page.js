@@ -1,11 +1,13 @@
 "use client"
-import React, { useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation'
 import useLogicHooks from '@/hooks/useLogicHooks';
 import InputWithLabel from '@/components/input/InputWithLabel';
 import Branding from '@/components/core/Branding';
 import SelectWithLabel from '@/components/input/SelectWithLabel';
 import RadioWithLabel from '@/components/input/RadioWithLabel';
+import axios from 'axios';
+import { api } from '@/services/endpoint';
 
 const formInput = [
     { isReadOnly: true, type: 'text', info: 'Aesencrypted', id: 'Customer_Name', label: 'Account Holder Name', name: 'Customer_Name' },
@@ -47,19 +49,37 @@ const selectMandateType = [
         ], isRequired: true, info: 'plaintext', id: 'Customer_DebitFrequency', label: 'Mandate Type', name: 'Customer_DebitFrequency'
     },
 ];
+const selectgetLiveBankDtls = [
+    {      options: [
+        ], isRequired: true, info: 'plaintext', id: 'bankName', label: 'Bank Name', name: 'bankName'
+    },
+];
 
 const EnachClient = () => {
     const router = useRouter();
     const { enachState, retrieveData, enachChangeHandler, enachSubmitHandler, debitFrequencyChangeHandler } = useLogicHooks()
+    const [liveBankData, setLiveBankData] = useState([]);
+
+    const paymentMerchent = async () => {
+        try {
+            const {data} = await axios.get(api.paymentmerchentType())
+            setLiveBankData(data);
+            console.log(data);
+            
+        } catch (error) {
+            
+        }
+
+    }
 
     useEffect(() => {
+        paymentMerchent()
         retrieveData();
     }, []);
 
-
     return (
         <div className='container'>
-            {/* {JSON.stringify(enachState)} */}
+            {/* {JSON.stringify(liveBankData)} */}
             <Branding />
             <form className="row" onSubmit={enachSubmitHandler}>
                 {formInput.map((d) => (
@@ -68,6 +88,16 @@ const EnachClient = () => {
                         feild={d}
                         state={enachState}
                         onChangeHandler={enachChangeHandler}
+                    />
+                ))}
+                <div style={{ margin: '20px 0' }}></div>
+                <hr/>
+                {selectgetLiveBankDtls.map((d) => (
+                    <SelectWithLabel
+                        key={`form_input__${d.name}`}
+                        feild={d}
+                        state={enachState}
+                        onChangeHandler={debitFrequencyChangeHandler}
                     />
                 ))}
                 {selectMandateType.map((d) => (

@@ -245,3 +245,10 @@ main {
     text-decoration: underline;
   }
 }
+
+.heading-middle {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 20px 0; /* Add margin for spacing */
+}
