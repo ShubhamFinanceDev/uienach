@@ -49,28 +49,35 @@ const selectMandateType = [
         ], isRequired: true, info: 'plaintext', id: 'Customer_DebitFrequency', label: 'Mandate Type', name: 'Customer_DebitFrequency'
     },
 ];
-const selectgetLiveBankDtls = [
-    {      options: [
-        ], isRequired: true, info: 'plaintext', id: 'bankName', label: 'Bank Name', name: 'bankName'
-    },
-];
 
 const EnachClient = () => {
     const router = useRouter();
     const { enachState, retrieveData, enachChangeHandler, enachSubmitHandler, debitFrequencyChangeHandler } = useLogicHooks()
-    const [liveBankData, setLiveBankData] = useState([]);
+    const [liveBankData, setLiveBankData] = useState({ Debit: [], Net: [] });
 
     const paymentMerchent = async () => {
         try {
-            const {data} = await axios.get(api.paymentmerchentType())
+            const { data } = await axios.get(api.paymentmerchentType())
             setLiveBankData(data);
-            console.log(data);
-            
         } catch (error) {
-            
+            console.error('+++ error', error);
         }
 
     }
+
+    const paymentMerchentObj = () => {
+        if (enachState.Channel) {
+            return liveBankData[enachState.Channel]
+        } else {
+            return []
+        }
+    }
+
+    const selectgetLiveBankDtls = [
+        {
+            options: paymentMerchentObj(), isRequired: true, info: 'plaintext', id: 'Filler6', label: 'Bank Name', name: 'Filler6'
+        },
+    ];
 
     useEffect(() => {
         paymentMerchent()
@@ -79,7 +86,6 @@ const EnachClient = () => {
 
     return (
         <div className='container'>
-            {/* {JSON.stringify(liveBankData)} */}
             <Branding />
             <form className="row" onSubmit={enachSubmitHandler}>
                 {formInput.map((d) => (
@@ -90,7 +96,7 @@ const EnachClient = () => {
                         onChangeHandler={enachChangeHandler}
                     />
                 ))}
-                             {selectMandateType.map((d) => (
+                {selectMandateType.map((d) => (
                     <SelectWithLabel
                         key={`form_input__${d.name}`}
                         feild={d}
@@ -99,7 +105,6 @@ const EnachClient = () => {
                     />
                 ))}
                 <div className='heading-middle'>Bank Details:</div>
-                <hr/>
                 {selectPayment.map((d) => (
                     <RadioWithLabel
                         key={`form_input__${d.name}`}
@@ -113,7 +118,7 @@ const EnachClient = () => {
                         key={`form_input__${d.name}`}
                         feild={d}
                         state={enachState}
-                        onChangeHandler={debitFrequencyChangeHandler}
+                        onChangeHandler={enachChangeHandler}
                     />
                 ))}
                 {selectInput.map((d) => (
@@ -133,7 +138,7 @@ const EnachClient = () => {
                         value={enachState.Customer_MaxAmount}
                     />
                 ))}
-                <div className="row">
+                <div className="row mb-5">
                     <div className="col-md-6"></div>
                     <div className="col-md-6 col-12">
                         <button className='btn btn-primary mt-3 mb-3' type='submit'>Submit</button>

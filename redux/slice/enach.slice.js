@@ -19,6 +19,7 @@ const initialState = {
     Merchant_Category_Code: "",
 
     CheckSum: "",
+    Channel: "Net",     // Debit || Net
 
 
     MsgId: "1",
@@ -33,7 +34,6 @@ const initialState = {
     Customer_SequenceType: "RCUR",
     Customer_Reference1: "",
     Customer_Reference2: "",
-    Channel: "",     // Debit || Net
     Filler1: "",
     Filler2: "",
     Filler3: "",
