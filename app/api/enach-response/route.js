@@ -16,16 +16,24 @@ export async function POST(req) {
         const parsedObject = JSON.parse(jsonString);
 
         const { MsgId, Status = "Something went wrong!", Errors = {} } = parsedObject;
-        const { data: { loanNo = "" } } = await axios.put(api.enachPaymentStatus(MsgId), { transactionStatus: Status });
 
+
+        let errorObject = []
+        let errorObj2 = []
+
+
+        for (const error of Errors) {
+            errorObject.push("reason=" + error.Error_Message)
+            errorObj2.push(error.Error_Message)
+        }
+
+        const errorString = errorObj2.join(", ") || ""
+        
+        const { data: { loanNo = "" } } = await axios.put(api.enachPaymentStatus(MsgId), { transactionStatus: Status, errorMessage : errorString });
         const transactionQuery = `loanNo=${loanNo}&MsgId=${MsgId}`
 
-
         if (Status === 'Failed') {
-            let errorObject = []
-            for (const error of Errors) {
-                errorObject.push("reason=" + error.Error_Message)
-            }
+            
             const errorObjectString = errorObject.join("&")
 
             return new Response(null, {

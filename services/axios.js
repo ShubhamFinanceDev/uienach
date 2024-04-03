@@ -1,9 +1,8 @@
-import axios from 'axios';
+import axios from "axios";
 import Cookies from 'js-cookie';
 
 import store from '@/redux/store';
 import { startLoaderAct, stopLoaderAct } from '@/redux/slice/loader.slice';
-
 
 const request = axios.create({
     baseURL: process.env.BASE_URL
@@ -14,7 +13,7 @@ request.interceptors.request.use(
         store.dispatch(startLoaderAct())
         const token = Cookies.get("token");
         if (token) {
-            config.headers.Authorization = token
+            config.headers.Authorization = "Bearer " + token
         }
         return config;
     },

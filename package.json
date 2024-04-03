@@ -4,6 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "PORT=3000 next dev",
+    "windev": "set PORT=3000 && next dev",
     "build": "next build",
     "start": "next start",
     "lint": "next lint"

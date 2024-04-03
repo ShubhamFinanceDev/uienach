@@ -118,14 +118,14 @@ const useLogicHooks = () => {
         e?.preventDefault()
         try {
 
-            const { mobile: mobileNo, otpCode } = userDetailState
-            const { data } = await axios.post(api.validateOTP(), { mobileNo, otpCode })
+            const { mobile: mobileNo, otpCode,loanNo } = userDetailState
+            const { data } = await axios.post(api.validateOTP(), { mobileNo, otpCode, loanNo: userDetailState.applicationNumber })
 
             if (data.code === "1111") {
                 throw new Error(data.msg);
             } else {
 
-                const { custName, loanNo, mobileNo, email, startDate, expiryDate, amount } = data
+                const { custName, loanNo, mobileNo, email, startDate, expiryDate, amount, jwtToken } = data
 
                 const userData = {
                     loanNo: loanNo,
@@ -137,6 +137,7 @@ const useLogicHooks = () => {
                 }
 
                 Cookies.set("user_data", JSON.stringify(userData))
+                Cookies.set("token", jwtToken)
                 dispatch(setEnachValue(userData))
                 router.push("/client/enach")
             }
@@ -182,7 +183,8 @@ const useLogicHooks = () => {
             await axios.post(api.communicateEnachPayment(), {
                 transactionNo: body.MsgId,
                 loanNo: enachState.loanNo,
-                transactionStartDate: date
+                transactionStartDate: date,
+                mandateType:enachState.Customer_DebitFrequency,
             })
             dispatch(setEnachValue(body))
             router.push("/client/form");
