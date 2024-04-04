@@ -1,11 +1,11 @@
 export const api = {
-    requestOTP: () => `/sendOtp`,
-    validateOTP: () => `/otpVerification`,
+    requestOTP: () => `/eNach/sendOtp`,
+    validateOTP: () => `/eNach/otpVerification`,
 
-    communicateEnachPayment: () => `/enachPayment`,
-    enachPaymentStatus: (msgID) => `/enachPaymentStatus/${msgID}`,
+    communicateEnachPayment: () => `/customer/enachPayment`,
+    enachPaymentStatus: (msgID) => `/eNach/enachPaymentStatus/${msgID}`,
     
-    enachmandateType: () => `/mandateType`,
+    enachmandateType: () => `/customer/mandateType`,
     getLiveBankDtlsType: () => `https://enachuat.npci.org.in:8086/apiservices_new/getLiveBankDtls`,
     paymentmerchentType: () => `/api/payment-merchent`
     
