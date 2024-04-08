@@ -1,7 +1,7 @@
 import React from 'react';
 
 const Success = ({ searchParams }) => {
-    const { loanNo = "", MsgId = "" } = searchParams
+    const { applicationNo = "", MsgId = "" } = searchParams
     return (
         <div className='container success-container' style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', height: '100vh' }}>
 
@@ -10,7 +10,7 @@ const Success = ({ searchParams }) => {
             >
                 Enach registration successfully completed.
             </h1>
-            <p className='mt-3'>Reference transaction No. {MsgId} for loan no. {loanNo}.</p>
+            <p className='mt-3'>Reference transaction No. {MsgId} for application No. {applicationNo}.</p>
         </div>
     );
 }

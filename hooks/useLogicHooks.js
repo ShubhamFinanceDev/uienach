@@ -48,7 +48,7 @@ const userDetailsInitialState = {
     otp: "",
 
     custName: "",
-    loanNo: "",
+    applicationNo: "",
     mobile: "",
     email: "",
     startDate: "",
@@ -100,7 +100,7 @@ const useLogicHooks = () => {
                 return
             }
 
-            const { data } = await axios.post(api.requestOTP(), { loanNo: userDetailState.applicationNumber })
+            const { data } = await axios.post(api.requestOTP(), { applicationNo: userDetailState.applicationNumber })
 
             if (data.code === "1111") {
                 throw new Error(data.msg);
@@ -118,19 +118,19 @@ const useLogicHooks = () => {
         e?.preventDefault()
         try {
 
-            const { mobile: mobileNo, otpCode,loanNo } = userDetailState
-            const { data } = await axios.post(api.validateOTP(), { mobileNo, otpCode, loanNo: userDetailState.applicationNumber })
+            const { mobile: mobileNo, otpCode,applicationNo } = userDetailState
+            const { data } = await axios.post(api.validateOTP(), { mobileNo, otpCode, applicationNo: userDetailState.applicationNumber })
 
             if (data.code === "1111") {
                 throw new Error(data.msg);
             } else {
 
-                const { custName, loanNo, mobileNo, email, startDate, expiryDate, amount, jwtToken } = data
+                const { custName, applicationNo, mobileNo, email, startDate, expiryDate, amount, jwtToken } = data
 
                 const userData = {
-                    loanNo: loanNo,
+                    applicationNo: applicationNo,
                     Customer_Name: custName,
-                    Customer_EmailId: email || "",
+                    // Customer_EmailId: email || "",
                     Customer_Mobile: mobileNo,
                     Customer_StartDate: formatDate(startDate),
                     Customer_ExpiryDate: formatDate(expiryDate),
@@ -158,7 +158,7 @@ const useLogicHooks = () => {
         e?.preventDefault()
         try {
             const body = { ...enachState }
-            delete body.loanNo
+            delete body.applicationNo
 
             const { Customer_AccountNo, Customer_StartDate, Customer_ExpiryDate, Customer_DebitAmount, Customer_MaxAmount } = enachState
             console.log(enachState)
@@ -182,7 +182,7 @@ const useLogicHooks = () => {
             const date = new Date
             await axios.post(api.communicateEnachPayment(), {
                 transactionNo: body.MsgId,
-                loanNo: enachState.loanNo,
+                applicationNo: enachState.applicationNo,
                 transactionStartDate: date,
                 mandateType:enachState.Customer_DebitFrequency,
             })
@@ -201,7 +201,7 @@ const useLogicHooks = () => {
             const body = {
                 params: {
                     mandateType: value,
-                    loanNo: prevState.loanNo
+                    applicationNo: prevState.applicationNo
                 }
             }
             const { data } = await axios.get(api.enachmandateType(), body);
