@@ -20,8 +20,8 @@ const formInput2 = [
     { isRequired: true, type: 'text', info: 'plain text', id: 'Customer_InstructedMemberId', label: 'IFSC Code', name: 'Customer_InstructedMemberId' },
     { isReadOnly: true, type: 'date', info: 'yyyy-MM-dd', id: 'Customer_StartDate', label: 'Start Date', name: 'Customer_StartDate' },
     { isReadOnly: true, type: 'date', info: 'yyyy-MM-dd', id: 'Customer_ExpiryDate', label: 'Expiry Date', name: 'Customer_ExpiryDate' },
-    { isReadOnly: true, type: 'number', info: 'decimal', id: 'Customer_MaxAmount', label: 'Sensation Amount', name: 'Customer_MaxAmount' },
-    // {  type: 'number', info: 'decimal', id: 'Customer_DebitAmount', label: 'Sensation Amount', name: 'Customer_DebitAmount' },
+    { isReadOnly: true, type: 'number', info: 'decimal', id: 'Customer_MaxAmount', label: 'Sanction Amount', name: 'Customer_MaxAmount' },
+    // {  type: 'number', info: 'decimal', id: 'Customer_DebitAmount', label: 'Sanction Amount', name: 'Customer_DebitAmount' },
 ];
 
 const selectInput = [
