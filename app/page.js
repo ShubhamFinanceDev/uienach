@@ -4,7 +4,6 @@ import React, { useEffect } from 'react'
 
 import Link from 'next/link';
 import Branding from '@/components/core/Branding';
-import Footer from '@/components/core/Footer';
 
 const HomePage = () => {
 
@@ -19,7 +18,6 @@ const HomePage = () => {
                     <button className='btn btn-primary mt-5'>Click to proceed</button>
                 </Link>
             </div>
-            <Footer />
         </div>
     )
 }
