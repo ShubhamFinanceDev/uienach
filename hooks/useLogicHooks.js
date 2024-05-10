@@ -184,6 +184,7 @@ const useLogicHooks = () => {
                 transactionNo: body.MsgId,
                 applicationNo: enachState.applicationNo,
                 transactionStartDate: date,
+                paymentMethod: enachState.Channel,
                 mandateType:enachState.Customer_DebitFrequency,
             })
             dispatch(setEnachValue(body))
@@ -225,6 +226,16 @@ const useLogicHooks = () => {
 
     }
 
+    const paymentMethodChangeHandlerCase = (prevState, {name, value}) => {
+        if (name === "Channel") {
+            if (value === "Aadhaar") {
+                prevState.Filler7 = "OTP"
+            } else {
+                prevState.Filler7 = ""
+            }
+        }
+
+    }
 
     return ({
         conditionRender, userDetailState, enachState,
@@ -233,7 +244,7 @@ const useLogicHooks = () => {
         requestOTPHandler, validateOTPHandler, enachSubmitHandler,
         retrieveData, debitFrequencyChangeHandler,
 
-        enachChangeHandler: (e) => changeHandlerHelper(e, enachState, setEnachState),
+        enachChangeHandler: (e) => changeHandlerHelper(e, enachState, setEnachState, paymentMethodChangeHandlerCase),
         userDetailChangeHandler: (e) => changeHandlerHelper(e, userDetailState, setUserDetailState)
     })
 }

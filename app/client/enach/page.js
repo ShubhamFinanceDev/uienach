@@ -37,7 +37,8 @@ const selectPayment = [
     {
         options: [
             { name: "Net-banking", value: "Net" },
-            { name: "Debit Card", value: "Debit" }
+            { name: "Debit Card", value: "Debit" },
+            { name: "Aadhaar", value: "Aadhaar" }
         ], isRequired: true, info: 'plaintext', id: 'Channel', label: 'Payment Method', name: 'Channel'
     },
 ];

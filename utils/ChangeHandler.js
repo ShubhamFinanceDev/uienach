@@ -1,4 +1,4 @@
-const changeHandlerHelper = (e, state, setState) => {
+const changeHandlerHelper = (e, state, setState, customCase = () => {}) => {
 
     let { name, value, checked, type } = e.target;
     if (type == "number") {
@@ -6,6 +6,7 @@ const changeHandlerHelper = (e, state, setState) => {
     }
     const prevState = { ...state }
     prevState[name] = value
+    customCase(prevState, e.target)
     setState(prevState)
 }
 

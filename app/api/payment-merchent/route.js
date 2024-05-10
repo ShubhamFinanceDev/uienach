@@ -12,7 +12,13 @@ export async function GET(req) {
                     value: d.bankId
                 })
             }),
-            Debit: liveBankList.filter((d) => d.debitcardFlag === 'Active').map((d) => {
+            Debit: liveBankList.filter((d) => d.debitCardFlag === 'Active').map((d) => {
+                return ({
+                    name: d.bankName,
+                    value: d.bankId
+                })
+            }),
+            Aadhaar: liveBankList.filter((d) => d.aadharFlag === 'Active').map((d) => {
                 return ({
                     name: d.bankName,
                     value: d.bankId
