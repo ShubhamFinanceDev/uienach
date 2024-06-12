@@ -17,7 +17,15 @@ export async function GET(req) {
                     name: d.bankName,
                     value: d.bankId
                 })
+            }),
+            Aadhaar: liveBankList.filter((d) => d.aadhaarFlag === 'Active').map((d) => {
+                return ({
+                    name: d.bankName,
+                    value: d.bankId
+
+                })
             })
+                    
         })
     } catch (error) {
         return NextResponse.json({ error: error })
