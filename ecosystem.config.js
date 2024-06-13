@@ -4,7 +4,7 @@ module.exports = {
 
     {
 
-      name: 'next-app',
+      name: 'enach-app',
 
       script: 'node_modules/next/dist/bin/next',
 
