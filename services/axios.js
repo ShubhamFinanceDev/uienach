@@ -30,6 +30,13 @@ request.interceptors.response.use(
     },
     (error) => {
         store.dispatch(stopLoaderAct())
+        const status = error?.response?.status || 400
+        if (status === 401) {
+            alert('Session Expired!')
+            Cookies.remove("user_data")
+            Cookies.remove("token")
+            window.location.replace('/')
+        }
         return Promise.reject(error);
     }
 )

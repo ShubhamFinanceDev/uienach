@@ -1,8 +1,7 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
     env: {
-
-         BASE_URL:"https://ENACH2.shubham.co:8080"
+        BASE_URL: "https://ENACH2.shubham.co:8080"
     },
 
     experimental: {
