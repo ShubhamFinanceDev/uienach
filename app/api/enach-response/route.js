@@ -39,14 +39,14 @@ export async function POST(req) {
             return new Response(null, {
                 status: 302,
                 headers: {
-                    "Location": `http://144.24.96.140/client/failed?${errorObjectString}&${transactionQuery}`
+                    "Location": `https://enach2.shubham.co:3000/client/failed?${errorObjectString}&${transactionQuery}`
                 }
             });
         } else {
             return new Response(null, {
                 status: 302,
                 headers: {
-                    "Location": `http://144.24.96.140/client/success?${transactionQuery}`
+                    "Location": `https://enach2.shubham.co:3000/client/success?${transactionQuery}`
                 }
             });
         }
