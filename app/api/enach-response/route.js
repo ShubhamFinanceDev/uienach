@@ -29,7 +29,7 @@ export async function POST(req) {
 
         const errorString = errorObj2.join(", ") || ""
         
-        const { data: { applicationNo = "" } } = await axios.put(api.enachPaymentStatus(MsgId), { transactionStatus: Status, errorMessage : errorString });
+        const { data: { applicationNo = "" , mandateType="", amount=""} } = await axios.put(api.enachPaymentStatus(MsgId), { transactionStatus: Status, errorMessage : errorString });
         const transactionQuery = `applicationNo=${applicationNo}&MsgId=${MsgId}&mandateType=${mandateType}&amount=${amount}`
 
         if (Status === 'Failed') {
