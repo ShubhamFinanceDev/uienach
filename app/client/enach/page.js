@@ -11,6 +11,7 @@ import { api } from '@/services/endpoint';
 
 const formInput = [
     { isReadOnly: true, type: 'text', info: 'Aesencrypted', id: 'Customer_Name', label: 'Account Holder Name', name: 'Customer_Name' },
+    { isReadOnly: true, type: 'text', info: 'Aesencrypted', id: 'applicationNo', label: 'Application No', name: 'applicationNo' },
     //{ isReadOnly: true, type: 'text', info: 'Aesencrypted', id: 'Customer_EmailId', label: 'Email', name: 'Customer_EmailId' },
     { isReadOnly: true, type: 'text', info: 'Aesencrypted', id: 'Customer_Mobile', label: 'Mobile No.', name: 'Customer_Mobile' },
 ];

@@ -158,6 +158,7 @@ const useLogicHooks = () => {
         e?.preventDefault()
         try {
             const body = { ...enachState }
+            body.Customer_Reference2 = body.applicationNo;
             delete body.applicationNo
 
             const { Customer_AccountNo, Customer_StartDate, Customer_ExpiryDate, Customer_DebitAmount, Customer_MaxAmount } = enachState
@@ -186,6 +187,7 @@ const useLogicHooks = () => {
                 transactionStartDate: date,
                 paymentMethod: enachState.Channel,
                 mandateType:enachState.Customer_DebitFrequency,
+                amount:enachState.Customer_MaxAmount * 1,
             })
             dispatch(setEnachValue(body))
             router.push("/client/form");
