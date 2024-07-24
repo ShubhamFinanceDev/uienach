@@ -188,6 +188,12 @@ const useLogicHooks = () => {
                 paymentMethod: enachState.Channel,
                 mandateType:enachState.Customer_DebitFrequency,
                 amount:enachState.Customer_MaxAmount * 1,
+                
+                bankName:body.Filler6,
+                bankAccountNo:enachState.Customer_AccountNo,
+                ifscCode:body.Customer_InstructedMemberId,
+                startDate:enachState.Customer_StartDate,
+                endDate:enachState.Customer_ExpiryDate
             })
             dispatch(setEnachValue(body))
             router.push("/client/form");
