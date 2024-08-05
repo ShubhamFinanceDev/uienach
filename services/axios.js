@@ -12,7 +12,8 @@ request.interceptors.request.use(
     (config) => {
         store.dispatch(startLoaderAct())
         const token = Cookies.get("token");
-        if (token) {
+        const isWhiteListed = config.url.includes("eNach")
+        if (token && !isWhiteListed) {
             config.headers.Authorization = "Bearer " + token
         }
         return config;
