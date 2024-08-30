@@ -2,8 +2,10 @@ import React from 'react'
 
 const Branding = () => {
     return (
-        <div className='branding'><img src="/logo.jpg" alt="shubham finance logo" className='logo' />
-        </div>
+        <header>
+            <img src="/logocopy.jpg"alt="logo" />
+            {/* <button className='btn btn-light btn-sm'>Logout</button> */}
+        </header>
     )
 }
 

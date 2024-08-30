@@ -6,7 +6,6 @@ import useLogicHooks from '@/hooks/useLogicHooks'
 import Branding from '@/components/core/Branding'
 import InputWithLabel from '@/components/input/InputWithLabel'
 
-
 const formInput = [
     { isRequired: true, type: 'text', id: 'ApplicationNumber', label: 'Application Number', name: 'applicationNumber' },
     { isRequired: true, type: 'password', id: 'ConfirmApplicationNumber', label: 'Confirm Application Number', name: 'confirmApplicationNumber' },
@@ -15,17 +14,17 @@ const OTPFormInput = [
     { type: 'text', id: 'otp', label: 'One Time Password (OTP)', name: 'otpCode', isRequired: true },
 ]
 
-const ClientAuthPage = () => {
+const enachCancelationPage = () => {
     const router = useRouter()
 
-    const { userDetailState, conditionRender, userDetailChangeHandler, requestOTPHandler, validateOTPHandler } = useLogicHooks()
+    const { userDetailState, conditionRender, userDetailChangeHandler, requestOTPHandler, enacCancelhvalidateOTPHandler } = useLogicHooks()
 
     return (
         <div>
-            <Branding />
+            <Branding/>
             <div className='mt-5'>
             <div className='heading'>
-            <h2 className='mb-1'>E-Nach Registration</h2>
+            <h2 className='mb-1'>E-Nach Cancelation</h2>
             <p className='mb-3'>Create or modify mandate for future payment.</p>
             </div>
             <form className="row" onSubmit={requestOTPHandler}>
@@ -50,7 +49,7 @@ const ClientAuthPage = () => {
 
 
             {conditionRender.showOTPSection ?
-                <form className="row mt-2" onSubmit={validateOTPHandler}>
+                <form className="row mt-2" onSubmit={enacCancelhvalidateOTPHandler}>
 
                     {OTPFormInput.map((d) => {
                         return (
@@ -77,8 +76,9 @@ const ClientAuthPage = () => {
 
                 </form> : <></>}
                 </div>
+
         </div>
     )
 }
 
-export default ClientAuthPage
+export default enachCancelationPage

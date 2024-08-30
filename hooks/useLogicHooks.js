@@ -243,12 +243,47 @@ const useLogicHooks = () => {
 
     }
 
+    // EnachCanelation Handler
+
+    const enacCancelhvalidateOTPHandler = async (e) => {
+        e?.preventDefault()
+        try {
+
+            const { mobile: mobileNo, otpCode,applicationNo } = userDetailState
+            const { data } = await axios.post(api.validateOTP(), { mobileNo, otpCode, applicationNo: userDetailState.applicationNumber })
+
+            if (data.code === "1111") {
+                throw new Error(data.msg);
+            } else {
+
+                const { custName, applicationNo, mobileNo, email, startDate, expiryDate, amount, jwtToken } = data
+
+                const userData = {
+                    applicationNo: applicationNo,
+                    Customer_Name: custName,
+                    // Customer_EmailId: email || "",
+                    Customer_Mobile: mobileNo,
+                    Customer_StartDate: formatDate(startDate),
+                    Customer_ExpiryDate: formatDate(expiryDate),
+                }
+
+                Cookies.set("user_data", JSON.stringify(userData))
+                Cookies.set("token", jwtToken)
+                dispatch(setEnachValue(userData))
+                router.push("/enachCancelation/userDetails")
+            }
+
+        } catch (error) {
+            ErrorHandler(error)
+        }
+    }
+
 
     return ({
         conditionRender, userDetailState, enachState,
 
 
-        requestOTPHandler, validateOTPHandler, enachSubmitHandler,
+        requestOTPHandler, validateOTPHandler, enachSubmitHandler,enacCancelhvalidateOTPHandler,
         retrieveData, debitFrequencyChangeHandler,
 
         enachChangeHandler: (e) => changeHandlerHelper(e, enachState, setEnachState, paymentMethodChangeHandlerCase),

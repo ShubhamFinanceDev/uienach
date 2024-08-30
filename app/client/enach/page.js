@@ -87,8 +87,8 @@ const EnachClient = () => {
     }, []);
 
     return (
-        <div className='container'>
-            <Branding />
+        <div>
+            <Branding/>
             <form className="row" onSubmit={enachSubmitHandler}>
                 {formInput.map((d) => (
                     <InputWithLabel

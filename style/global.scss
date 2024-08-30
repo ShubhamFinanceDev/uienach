@@ -252,9 +252,19 @@ main {
 }
 
 footer {
-  background-color: #015495;
+  background-color:orange;
   color: white;
-  padding: 1rem;
+  padding: 0.5rem;
   text-align: center;
   font-size: 0.9rem;
+}
+header {
+  justify-content: center;
+  background-color: $primary;
+  display: flex;
+  // justify-content: space-between;
+  align-items: center;
+  img {
+    height: 4rem;
+  }
 }
