@@ -1,9 +1,13 @@
+"use client"
 import React from 'react'
+import { useSelector } from "react-redux"
 
 const userDetailsPage = () => {
+const enacCancel = useSelector(state => state.enacCancelation.enacCancel)
+
   return (
     <div>
-      userDetailsPage
+      {JSON.stringify(enacCancel)}
     </div>
   )
 }

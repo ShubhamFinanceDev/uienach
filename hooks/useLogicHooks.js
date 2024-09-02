@@ -10,6 +10,7 @@ import { useRouter } from 'next/navigation'
 import { AES256Encryptor, SHA256Hash, uniqueMsgID } from '@/utils/AESEncryption'
 import { useDispatch, useSelector } from 'react-redux'
 import { setEnachValue } from '@/redux/slice/enach.slice'
+import {setEnacCancel} from '@/redux/slice/enacCancelation.slice'
 import Cookies from 'js-cookie'
 
 
@@ -162,7 +163,6 @@ const useLogicHooks = () => {
             delete body.applicationNo
 
             const { Customer_AccountNo, Customer_StartDate, Customer_ExpiryDate, Customer_DebitAmount, Customer_MaxAmount } = enachState
-            console.log(enachState)
 
             body.CheckSum = SHA256Hash([Customer_AccountNo, Customer_StartDate, Customer_ExpiryDate, Customer_DebitAmount, Customer_MaxAmount])
 
@@ -250,7 +250,7 @@ const useLogicHooks = () => {
         try {
 
             const { mobile: mobileNo, otpCode,applicationNo } = userDetailState
-            const { data } = await axios.post(api.validateOTP(), { mobileNo, otpCode, applicationNo: userDetailState.applicationNumber })
+            const { data } = await axios.post(api.validateOTPENachCancellation(), { mobileNo, otpCode, applicationNo: userDetailState.applicationNumber })
 
             if (data.code === "1111") {
                 throw new Error(data.msg);
@@ -269,7 +269,7 @@ const useLogicHooks = () => {
 
                 Cookies.set("user_data", JSON.stringify(userData))
                 Cookies.set("token", jwtToken)
-                dispatch(setEnachValue(userData))
+                dispatch(setEnacCancel(data))
                 router.push("/enachCancelation/userDetails")
             }
 
