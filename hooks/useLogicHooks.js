@@ -57,6 +57,12 @@ const userDetailsInitialState = {
     amount: "",
 }
 
+const loanStatusInitialState = {
+    applicationNo:"",
+    loanNo:"",
+    cancelCause:''
+}
+
 
 
 const useLogicHooks = () => {
@@ -66,6 +72,8 @@ const useLogicHooks = () => {
 
     const [conditionRender, setConditionRender] = useState({ ...conditionRenderInitialState })
     const [userDetailState, setUserDetailState] = useState({ ...userDetailsInitialState })
+    const [loanStatus, setloanStatus] = useState({ ...loanStatusInitialState })
+
 
     const [enachState, setEnachState] = useState({ ...enachInitialState })
 
@@ -280,16 +288,30 @@ const useLogicHooks = () => {
     }
 
 
+    const loanStatusSubmitHandler = (e) => {
+          e.preventDefault()
+    }
+
+     const loanStatusChangeHandler =(e) => changeHandlerHelper(e, loanStatus, setloanStatus)
+     const StatusDefaultStateHandler = (e) => setloanStatus(state => ({ ...state, ...e }))
+
     return ({
-        conditionRender, userDetailState, enachState,
+        conditionRender, userDetailState, enachState,loanStatus,
 
 
         requestOTPHandler, validateOTPHandler, enachSubmitHandler,enacCancelhvalidateOTPHandler,
-        retrieveData, debitFrequencyChangeHandler,
+        retrieveData, debitFrequencyChangeHandler,loanStatusChangeHandler,StatusDefaultStateHandler,loanStatusSubmitHandler,
 
         enachChangeHandler: (e) => changeHandlerHelper(e, enachState, setEnachState, paymentMethodChangeHandlerCase),
-        userDetailChangeHandler: (e) => changeHandlerHelper(e, userDetailState, setUserDetailState)
+        userDetailChangeHandler: (e) => changeHandlerHelper(e, userDetailState, setUserDetailState),
+
+
     })
 }
 
 export default useLogicHooks
+
+
+
+
+// const { loanStatus, loanStatusChangeHandler, loanStatusSubmitHandler, loanStatusDefaultStateHandler } = useLogicHooks()

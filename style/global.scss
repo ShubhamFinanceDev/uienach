@@ -268,3 +268,14 @@ header {
     height: 4rem;
   }
 }
+.model-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  border: 2px solid $border-color;
+  border-radius: 0.5rem;
+  padding: 1rem;
+  width: 100%;
+  cursor: pointer;
+}
