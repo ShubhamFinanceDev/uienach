@@ -21,8 +21,9 @@ const ClientAuthPage = () => {
     const { userDetailState, conditionRender, userDetailChangeHandler, requestOTPHandler, validateOTPHandler } = useLogicHooks()
 
     return (
-        <div>
-            <Branding />
+        <>
+        <Branding />
+       <div className='container'>
             <div className='mt-5'>
             <div className='heading'>
             <h2 className='mb-1'>E-Nach Registration</h2>
@@ -78,6 +79,7 @@ const ClientAuthPage = () => {
                 </form> : <></>}
                 </div>
         </div>
+        </>
     )
 }
 

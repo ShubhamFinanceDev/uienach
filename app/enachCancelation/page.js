@@ -20,8 +20,9 @@ const enachCancelationPage = () => {
     const { userDetailState, conditionRender, userDetailChangeHandler, requestOTPHandler, enacCancelhvalidateOTPHandler } = useLogicHooks()
 
     return (
-        <div>
+        <>
             <Branding/>
+            <div className='container'>
             <div className='mt-5'>
             <div className='heading'>
             <h2 className='mb-1'>E-Nach Cancelation</h2>
@@ -78,6 +79,7 @@ const enachCancelationPage = () => {
                 </div>
 
         </div>
+        </>
     )
 }
 

@@ -1,7 +1,8 @@
 import { createSlice } from '@reduxjs/toolkit';
 
 const initialState = {
-    enacCancel: {},
+  applicationDetails: {},
+  loansDetails : []
 }
 
 export const enacCancelSlice = createSlice({
@@ -9,7 +10,8 @@ export const enacCancelSlice = createSlice({
   initialState,
   reducers: {
     setEnacCancel: (state, action) => {
-      state.enacCancel = action.payload 
+      state.applicationDetails = action.payload.applicationDetails 
+      state.loansDetails = action.payload.loansDetails 
     },
   },
 });

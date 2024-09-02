@@ -10,10 +10,10 @@ const HomePage = () => {
     return (
        <div>
         <Branding />
-        <div className='container'>
-        <h2>E-Nach Registration || E-Nach Cancelation</h2>
+        <div className='containermainpage'>
+        <h2>E-Nach Registration || E-Nach Cancelation</h2><br/>
         <p>eNACH stands for electronic NACH and utilizes the services of NPCI’s National Automated Clearing House (NACH)</p>
-        <div className='d-flex gap-2 mt-4'>
+        <div className='d-flex gap-2 mt-4 '>
             <Link href="/client">
                 <button className='btn btn-primary'>Enach Registration</button>
             </Link>

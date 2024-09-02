@@ -8,7 +8,6 @@ const Failed = ({ searchParams }) => {
             <div style={{ textAlign: 'center' }}>
                 <h1 style={{ color: 'red', fontSize: '25px' }}>Enach registration has been failed.</h1>
                 <p className='mt-3'>for application No {applicationNo}, reason is {reason}.</p>
-
             </div>
         </div>
     );

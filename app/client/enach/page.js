@@ -87,8 +87,13 @@ const EnachClient = () => {
     }, []);
 
     return (
-        <div>
-            <Branding/>
+        <>
+      <Branding/>
+        <div className='container'>
+        <div className='heading mt-5'>
+              <h2 className='mb-1'>E-Nach Registration</h2>
+               <p className='mb-3'>Create or modify mandate for future payment.</p>
+            </div>
             <form className="row" onSubmit={enachSubmitHandler}>
                 {formInput.map((d) => (
                     <InputWithLabel
@@ -148,6 +153,7 @@ const EnachClient = () => {
                 </div>
             </form>
         </div>
+        </>
     );
 };
 

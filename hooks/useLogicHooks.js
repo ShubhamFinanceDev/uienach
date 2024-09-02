@@ -249,27 +249,28 @@ const useLogicHooks = () => {
         e?.preventDefault()
         try {
 
-            const { mobile: mobileNo, otpCode,applicationNo } = userDetailState
-            const { data } = await axios.post(api.validateOTPENachCancellation(), { mobileNo, otpCode, applicationNo: userDetailState.applicationNumber })
+            const { mobile: mobileNo, otpCode, applicationNumber : applicationNo } = userDetailState
 
+            let { data : { data = {}, loansDetails = [], code = "0000" } } = await axios.post(api.validateOTPENachCancellation(), { 
+                mobileNo, otpCode, applicationNo
+            })
+            // {"msg":"Otp send.","code":"0000","otpCode":"260856","mobile":"9922762148"}
+            
             if (data.code === "1111") {
                 throw new Error(data.msg);
             } else {
 
-                const { custName, applicationNo, mobileNo, email, startDate, expiryDate, amount, jwtToken } = data
-
-                const userData = {
-                    applicationNo: applicationNo,
-                    Customer_Name: custName,
-                    // Customer_EmailId: email || "",
-                    Customer_Mobile: mobileNo,
-                    Customer_StartDate: formatDate(startDate),
-                    Customer_ExpiryDate: formatDate(expiryDate),
+                const status = {
+                    A : "Active",
+                    X : "Cancel",
+                    C : "Close"
                 }
+                loansDetails = loansDetails.map((d) => {
+                    d.status_text = status[d.status]
+                    return d
+                })
 
-                Cookies.set("user_data", JSON.stringify(userData))
-                Cookies.set("token", jwtToken)
-                dispatch(setEnacCancel(data))
+                dispatch(setEnacCancel({applicationDetails : data, loansDetails }))
                 router.push("/enachCancelation/userDetails")
             }
 
