@@ -18,66 +18,66 @@ const UserDetailsPage = (props) => {
           <h2 className="mb-1">E-Nach Cancelation</h2>
           <p className="mb-3">Create or modify mandate for future payment.</p>
         </div>
-          <InputWithLabel
-            feild={{
-              name: "customerName",
-              label: "customerName",
-            }}
-            state={applicationDetails}
-            isDisabled
-          />
+        <InputWithLabel
+          feild={{
+            name: "customerName",
+            label: "customerName",
+          }}
+          state={applicationDetails}
+          isDisabled
+        />
 
-          <InputWithLabel
-            feild={{
-              name: "applicationNo",
-              label: "applicationNo",
-            }}
-            state={applicationDetails}
-            isDisabled
-          />
+        <InputWithLabel
+          feild={{
+            name: "applicationNo",
+            label: "applicationNo",
+          }}
+          state={applicationDetails}
+          isDisabled
+        />
 
-          <InputWithLabel
-            feild={{
-              name: "mobileNo",
-              label: "mobileNo",
-            }}
-            state={applicationDetails}
-            isDisabled
-          />
+        <InputWithLabel
+          feild={{
+            name: "mobileNo",
+            label: "mobileNo",
+          }}
+          state={applicationDetails}
+          isDisabled
+        />
 
-          <div className="mt-4"></div>
-          {filteredLoans.length > 0 && (
-            <table className="table">
-              <thead>
-                <tr>
-                  <th>Loan No</th>
-                  <th>Status</th>
-                  <th>Actions</th>
+        <div className="mt-4"></div>
+        {filteredLoans.length > 0 && (
+          <table className="table">
+            <thead>
+              <tr>
+                <th>Loan No</th>
+                <th>Status</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              {filteredLoans.map((d, idx) => (
+                <tr key={`loan_detail_${idx}`}>
+                  <td>{d.loanNo}</td>
+                  <td>{d.status_text}</td>
+                  <td>
+                    <button
+                      className="btn btn-primary mt-3"
+                      disabled={d.status === "A"}
+                      onClick={() => props.openModel({
+                        key: "STATUS_MODEL",
+                        applicationNo: applicationDetails.applicationNo,
+                        loanNo: d.loanNo,
+                      })}
+                    >
+                      mandate Cancel
+                    </button>
+                  </td>
                 </tr>
-              </thead>
-              <tbody>
-                {filteredLoans.map((d, idx) => (
-                  <tr key={`loan_detail_${idx}`}>
-                    <td>{d.loanNo}</td>
-                    <td>{d.status_text}</td>
-                    <td>
-                      <button
-                        className="btn btn-primary mt-3"
-                        disabled={d.status === "A"}
-                        onClick={() => props.openModel({
-                            key: "STATUS_MODEL",
-                            applicationNo: d.applicationNo,
-                            loanNo: d.loanNo,
-                          })}
-                          >
-                        mandate Cancel
-                      </button>
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          )}
+              ))}
+            </tbody>
+          </table>
+        )}
       </div>
     </>
   );

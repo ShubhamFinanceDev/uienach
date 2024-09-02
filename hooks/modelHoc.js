@@ -22,7 +22,6 @@ const ModelHOC = (Component) => {
         const closeModel = () => setModelState({ ...initialState })
         const openModel = (e) => {
             setModelState({ show: true, ...e })
-console.log(e)
         }
 
         const ModelComponent = ModelMap[ModelState.key]

@@ -10,7 +10,7 @@ import { useRouter } from 'next/navigation'
 import { AES256Encryptor, SHA256Hash, uniqueMsgID } from '@/utils/AESEncryption'
 import { useDispatch, useSelector } from 'react-redux'
 import { setEnachValue } from '@/redux/slice/enach.slice'
-import {setEnacCancel} from '@/redux/slice/enacCancelation.slice'
+import { setEnacCancel } from '@/redux/slice/enacCancelation.slice'
 import Cookies from 'js-cookie'
 
 
@@ -58,14 +58,14 @@ const userDetailsInitialState = {
 }
 
 const loanStatusInitialState = {
-    applicationNo:"",
-    loanNo:"",
-    cancelCause:''
+    applicationNo: "",
+    loanNo: "",
+    cancelCause: ''
 }
 
 
 
-const useLogicHooks = () => {
+const UseLogicHooks = () => {
     const dispatch = useDispatch()
     const router = useRouter()
     const enachInitialState = useSelector(state => state.enachSlice)
@@ -127,7 +127,7 @@ const useLogicHooks = () => {
         e?.preventDefault()
         try {
 
-            const { mobile: mobileNo, otpCode,applicationNo } = userDetailState
+            const { mobile: mobileNo, otpCode, applicationNo } = userDetailState
             const { data } = await axios.post(api.validateOTP(), { mobileNo, otpCode, applicationNo: userDetailState.applicationNumber })
 
             if (data.code === "1111") {
@@ -194,14 +194,14 @@ const useLogicHooks = () => {
                 applicationNo: enachState.applicationNo,
                 transactionStartDate: date,
                 paymentMethod: enachState.Channel,
-                mandateType:enachState.Customer_DebitFrequency,
-                amount:enachState.Customer_MaxAmount * 1,
-                
-                bankName:body.Filler6,
-                bankAccountNo:enachState.Customer_AccountNo,
-                ifscCode:body.Customer_InstructedMemberId,
-                startDate:enachState.Customer_StartDate,
-                endDate:enachState.Customer_ExpiryDate
+                mandateType: enachState.Customer_DebitFrequency,
+                amount: enachState.Customer_MaxAmount * 1,
+
+                bankName: body.Filler6,
+                bankAccountNo: enachState.Customer_AccountNo,
+                ifscCode: body.Customer_InstructedMemberId,
+                startDate: enachState.Customer_StartDate,
+                endDate: enachState.Customer_ExpiryDate
             })
             dispatch(setEnachValue(body))
             router.push("/client/form");
@@ -209,7 +209,7 @@ const useLogicHooks = () => {
             ErrorHandler(error)
         }
     }
-    const paymentMethodChangeHandlerCase = (prevState, {name, value}) => {
+    const paymentMethodChangeHandlerCase = (prevState, { name, value }) => {
         if (name === "Channel") {
             if (value === "Aadhaar") {
                 prevState.Filler7 = "OTP"
@@ -257,28 +257,28 @@ const useLogicHooks = () => {
         e?.preventDefault()
         try {
 
-            const { mobile: mobileNo, otpCode, applicationNumber : applicationNo } = userDetailState
+            const { mobile: mobileNo, otpCode, applicationNumber: applicationNo } = userDetailState
 
-            let { data : { data = {}, loansDetails = [], code = "0000" } } = await axios.post(api.validateOTPENachCancellation(), { 
+            let { data: { data = {}, loansDetails = [], code = "0000" } } = await axios.post(api.validateOTPENachCancellation(), {
                 mobileNo, otpCode, applicationNo
             })
             // {"msg":"Otp send.","code":"0000","otpCode":"260856","mobile":"9922762148"}
-            
+
             if (data.code === "1111") {
                 throw new Error(data.msg);
             } else {
 
                 const status = {
-                    A : "Active",
-                    X : "Cancel",
-                    C : "Close"
+                    A: "Active",
+                    X: "Cancel",
+                    C: "Close"
                 }
                 loansDetails = loansDetails.map((d) => {
                     d.status_text = status[d.status]
                     return d
                 })
 
-                dispatch(setEnacCancel({applicationDetails : data, loansDetails }))
+                dispatch(setEnacCancel({ applicationDetails: data, loansDetails }))
                 router.push("/enachCancelation/userDetails")
             }
 
@@ -289,18 +289,18 @@ const useLogicHooks = () => {
 
 
     const loanStatusSubmitHandler = (e) => {
-          e.preventDefault()
+        e.preventDefault()
     }
 
-     const loanStatusChangeHandler =(e) => changeHandlerHelper(e, loanStatus, setloanStatus)
-     const StatusDefaultStateHandler = (e) => setloanStatus(state => ({ ...state, ...e }))
+    const loanStatusChangeHandler = (e) => changeHandlerHelper(e, loanStatus, setloanStatus)
+    const StatusDefaultStateHandler = (e) => setloanStatus(state => ({ ...state, ...e }))
 
     return ({
-        conditionRender, userDetailState, enachState,loanStatus,
+        conditionRender, userDetailState, enachState, loanStatus,
 
 
-        requestOTPHandler, validateOTPHandler, enachSubmitHandler,enacCancelhvalidateOTPHandler,
-        retrieveData, debitFrequencyChangeHandler,loanStatusChangeHandler,StatusDefaultStateHandler,loanStatusSubmitHandler,
+        requestOTPHandler, validateOTPHandler, enachSubmitHandler, enacCancelhvalidateOTPHandler,
+        retrieveData, debitFrequencyChangeHandler, loanStatusChangeHandler, StatusDefaultStateHandler, loanStatusSubmitHandler,
 
         enachChangeHandler: (e) => changeHandlerHelper(e, enachState, setEnachState, paymentMethodChangeHandlerCase),
         userDetailChangeHandler: (e) => changeHandlerHelper(e, userDetailState, setUserDetailState),
@@ -309,9 +309,9 @@ const useLogicHooks = () => {
     })
 }
 
-export default useLogicHooks
+export default UseLogicHooks
 
 
 
 
-// const { loanStatus, loanStatusChangeHandler, loanStatusSubmitHandler, loanStatusDefaultStateHandler } = useLogicHooks()
+// const { loanStatus, loanStatusChangeHandler, loanStatusSubmitHandler, loanStatusDefaultStateHandler } = UseLogicHooks()

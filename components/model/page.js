@@ -3,37 +3,37 @@
 import React, { useEffect, useState } from 'react'
 import InputWithLabel from '../input/InputWithLabel'
 import SelectWithLabel from '../input/SelectWithLabel'
-import useLogicHooks from '@/hooks/useLogicHooks'
+import UseLogicHooks from '@/hooks/useLogicHooks'
 
 const StatusModel = (props) => {
-    const { loanStatus, loanStatusChangeHandler, loanStatusSubmitHandler, StatusDefaultStateHandler } = useLogicHooks()
+    const { loanStatus, loanStatusChangeHandler, loanStatusSubmitHandler, StatusDefaultStateHandler } = UseLogicHooks()
     const { closeModel, applicationNo, loanNo } = props
 
     useEffect(() => {
         StatusDefaultStateHandler({ applicationNo, loanNo })
-    }, [applicationNo, loanNo])
+    }, [props])
 
     return (
         <div className='model-container'>
-            {JSON.stringify(props)}
             <p className='mb-3'>Loan Cancelation Acknowledgement</p>
             <form onSubmit={loanStatusSubmitHandler} className='row'>
                 <InputWithLabel
-                feild={{
-                    name: "applicationNo",
-                    label: "applicationNo",
-                  }}
-                  state={loanStatus}
-                  isDisabled
+                    feild={{
+                        label: "applicationNo",
+                        name: "applicationNo",
+                        isDisabled: true
+                    }}
+                    state={loanStatus}
                 />
 
-               <InputWithLabel
-                feild={{
-                    name: "loan No",
-                    label: "loanNo",
-                  }}
-                  state={loanStatus}
-                  isDisabled
+                <InputWithLabel
+                    feild={{
+                        label: "Loan No.",
+                        name: "loanNo",
+                        isDisabled: true
+                    }}
+                    state={loanStatus}
+                    isDisabled
                 />
                 <SelectWithLabel
                     feild={{
@@ -48,13 +48,12 @@ const StatusModel = (props) => {
                     }}
                     state={loanStatus}
                     onChangeHandler={loanStatusChangeHandler}
-                    // className={['col-12 mb-2', 'col-12', 'col-12']}
 
                 />
 
 
                 <div className='mt-2 d-flex justify-content-end'>
-                    <button className='btn'onClick={closeModel}>Cancel</button>
+                    <button className='btn' onClick={closeModel}>Cancel</button>
                     <button className='btn btn-primary' type='submit'>Submit</button>
                 </div>
             </form>
