@@ -24,7 +24,7 @@ const UserDetailsPage = (props) => {
       <InputWithLabel
         feild={{
           name: "customerName",
-          label: "customerName",
+          label: "Customer Name",
         }}
         state={applicationDetails}
         isDisabled
@@ -33,7 +33,7 @@ const UserDetailsPage = (props) => {
       <InputWithLabel
         feild={{
           name: "applicationNo",
-          label: "applicationNo",
+          label: "Application No",
         }}
         state={applicationDetails}
         isDisabled
@@ -42,7 +42,7 @@ const UserDetailsPage = (props) => {
       <InputWithLabel
         feild={{
           name: "mobileNo",
-          label: "mobileNo",
+          label: "mobile No",
         }}
         state={applicationDetails}
         isDisabled
