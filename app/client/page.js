@@ -3,7 +3,7 @@
 import React from 'react'
 import { useRouter } from 'next/navigation'
 import useLogicHooks from '@/hooks/useLogicHooks'
-import Branding from '@/components/core/Branding'
+// import Branding from '@/components/core/Branding'
 import InputWithLabel from '@/components/input/InputWithLabel'
 
 
@@ -22,63 +22,63 @@ const ClientAuthPage = () => {
 
     return (
         <>
-        <Branding />
-       <div className='container'>
-            <div className='mt-5'>
-            <div className='heading'>
-            <h2 className='mb-1'>E-Nach Registration</h2>
-            <p className='mb-3'>Create or modify mandate for future payment.</p>
-            </div>
-            <form className="row" onSubmit={requestOTPHandler}>
-                {formInput.map((d) => {
-                    return (
-                        <InputWithLabel
-                            key={`form_input__${d.name}`}
-                            feild={{ ...d, isDisabled: conditionRender.showOTPSection }}
-                            state={userDetailState}
-                            onChangeHandler={userDetailChangeHandler}
-                            className={[
-                                "col-12 mt-3", "", "form-control"
-                            ]}
-                        />
-                    )
-                })}
-
-                {!conditionRender.showOTPSection && <div className='mt-4'>
-                    <button className='btn btn-primary' type='submit'>Request OTP</button>
-                </div>}
-            </form>
-
-
-            {conditionRender.showOTPSection ?
-                <form className="row mt-2" onSubmit={validateOTPHandler}>
-
-                    {OTPFormInput.map((d) => {
-                        return (
-                            <InputWithLabel
-                                key={`form_input__${d.name}`}
-                                feild={d}
-                                state={userDetailState}
-                                onChangeHandler={userDetailChangeHandler}
-                                className={[
-                                    "col-12 mt-3", "", "form-control"
-                                ]}
-                            />
-                        )
-                    })}
-
-                    <div className="col-12 mt-3">
-                        <p className='info'>By clicking Submit, you agree to the <a href="https://shubham.co/terms-and-conditions.php" target="_blank">Terms and Conditions</a> &amp; <a href="https://shubham.co/privacy-policy.php" target="_blank">Privacy Policy</a> of Shubham Housing Development Finance Company Ltd.</p>
+            {/* <Branding /> */}
+            <div className='container'>
+                <div className='mt-5'>
+                    <div className='heading'>
+                        <h2 className='mb-1'>E-Nach Registration</h2>
+                        <p className='mb-3'>Create or modify mandate for future payment.</p>
                     </div>
+                    <form className="row" onSubmit={requestOTPHandler}>
+                        {formInput.map((d) => {
+                            return (
+                                <InputWithLabel
+                                    key={`form_input__${d.name}`}
+                                    feild={{ ...d, isDisabled: conditionRender.showOTPSection }}
+                                    state={userDetailState}
+                                    onChangeHandler={userDetailChangeHandler}
+                                    className={[
+                                        "col-12 mt-3", "", "form-control"
+                                    ]}
+                                />
+                            )
+                        })}
 
-                    <div className='mt-2'>
-    <button className='btn btn-primary' type="submit">Submit</button>
-    <button className='btn btn-secondary gapinbutton' type='button' onClick={requestOTPHandler}>Resend OTP</button>
-</div>
+                        {!conditionRender.showOTPSection && <div className='mt-4'>
+                            <button className='btn btn-primary' type='submit'>Request OTP</button>
+                        </div>}
+                    </form>
 
-                </form> : <></>}
+
+                    {conditionRender.showOTPSection ?
+                        <form className="row mt-2" onSubmit={validateOTPHandler}>
+
+                            {OTPFormInput.map((d) => {
+                                return (
+                                    <InputWithLabel
+                                        key={`form_input__${d.name}`}
+                                        feild={d}
+                                        state={userDetailState}
+                                        onChangeHandler={userDetailChangeHandler}
+                                        className={[
+                                            "col-12 mt-3", "", "form-control"
+                                        ]}
+                                    />
+                                )
+                            })}
+
+                            <div className="col-12 mt-3">
+                                <p className='info'>By clicking Submit, you agree to the <a href="https://shubham.co/terms-and-conditions.php" target="_blank">Terms and Conditions</a> &amp; <a href="https://shubham.co/privacy-policy.php" target="_blank">Privacy Policy</a> of Shubham Housing Development Finance Company Ltd.</p>
+                            </div>
+
+                            <div className='mt-2'>
+                                <button className='btn btn-primary' type="submit">Submit</button>
+                                <button className='btn btn-secondary gapinbutton' type='button' onClick={requestOTPHandler}>Resend OTP</button>
+                            </div>
+
+                        </form> : <></>}
                 </div>
-        </div>
+            </div>
         </>
     )
 }

@@ -2,7 +2,7 @@
 
 import React from 'react'
 import UseLogicHooks from '@/hooks/useLogicHooks'
-import Branding from '@/components/core/Branding'
+// import Branding from '@/components/core/Branding'
 import InputWithLabel from '@/components/input/InputWithLabel'
 
 const formInput = [
@@ -19,11 +19,11 @@ const enachCancelationPage = () => {
 
     return (
         <>
-            <Branding />
+            {/* <Branding /> */}
             <div className='container'>
                 <div className='mt-5'>
                     <div className='heading'>
-                        <h2 className='mb-1'>E-Nach Cancelation</h2>
+                        <h2 className='mb-1'>E-Nach Cancellation</h2>
                         <p className='mb-3'>Create or modify mandate for future payment.</p>
                     </div>
                     <form className="row" onSubmit={requestOTPHandler}>

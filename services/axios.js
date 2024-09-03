@@ -35,6 +35,7 @@ request.interceptors.response.use(
         if (status === 401) {
             alert('Session Expired!')
             Cookies.remove("user_data")
+            Cookies.remove("ec_user_data")
             Cookies.remove("token")
             window.location.replace('/')
         }

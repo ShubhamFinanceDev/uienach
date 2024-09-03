@@ -158,8 +158,13 @@ const UseLogicHooks = () => {
 
     const retrieveData = () => {
         let data = Cookies.get("user_data")
+        let ec_data = Cookies.get("ec_user_data")
+
         data = JSON.parse(data || "{}")
+        ec_data = JSON.parse(ec_data || "{}")
+
         dispatch(setEnachValue(data))
+        dispatch(setEnacCancel(ec_data))
         setEnachState((state) => ({ ...state, ...data }))
     }
 
@@ -278,8 +283,11 @@ const UseLogicHooks = () => {
                     return d
                 })
 
-                dispatch(setEnacCancel({ applicationDetails: data, loansDetails }))
-                router.push("/enachCancelation/userDetails")
+                const payload = { applicationDetails: data, loansDetails }
+
+                dispatch(setEnacCancel(payload))
+                Cookies.set("ec_user_data", JSON.stringify(payload))
+                router.push("/enach-cancellation/user")
             }
 
         } catch (error) {
@@ -293,10 +301,9 @@ const UseLogicHooks = () => {
         const body = { ...loanStatus }
         try {
             const { data } = await axios.post(api.cancellationStatus(), body);
-            alert("Mandate status canceled successfully!");
-            router.push("/");
-        
-        }catch (error) {
+            router.push("/enach-cancellation/success");
+
+        } catch (error) {
             ErrorHandler(error)
         }
     }

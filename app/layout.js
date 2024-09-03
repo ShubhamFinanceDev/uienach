@@ -3,6 +3,7 @@ import { Providers } from "@/redux/provider"
 import Footer from '@/components/core/Footer'
 
 import "@/style/style.map.scss"
+import Branding from "@/components/core/Branding"
 
 export const metadata = {
   title: 'e-NACH - Shubham Housing Finance',
@@ -20,8 +21,9 @@ export default function RootLayout({ children }) {
       <body suppressHydrationWarning={true}>
         <Providers>
           <Loader />
+          <Branding />
           <div>
-          {children}
+            {children}
           </div>
           <Footer />
         </Providers>
