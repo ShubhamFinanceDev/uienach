@@ -9,6 +9,7 @@ import UseLogicHooks from "@/hooks/useLogicHooks";
 const UserDetailsPage = (props) => {
   const { applicationDetails = {}, loansDetails = [] } = useSelector((state) => state.enacCancelationSlice);
   const filteredLoans = loansDetails.filter((d) => d.status === "X" || d.status === "C" || d.status === "A");
+  const { selectedLoan,handleRadioChange, loanStatusSubmitHandler} =  UseLogicHooks()
   const { retrieveData } = UseLogicHooks()
 
   useEffect(() => {
@@ -49,39 +50,41 @@ const UserDetailsPage = (props) => {
       />
 
       <div className="mt-4"></div>
-      {filteredLoans.length > 0 && (
-        <table className="table">
-          <thead>
-            <tr>
-              <th>Loan No</th>
-              <th>Status</th>
-              <th>Actions</th>
-            </tr>
-          </thead>
-          <tbody>
-            {filteredLoans.map((d, idx) => (
-              <tr key={`loan_detail_${idx}`}>
-                <td>{d.loanNo}</td>
-                <td>{d.status_text}</td>
-                <td>
-                  <button
-                    className="btn btn-primary btn-sm"
-                    disabled={d.status === "A"}
-                    onClick={() => props.openModel({
-                      key: "STATUS_MODEL",
-                      size: "xl",
-                      applicationNo: applicationDetails.applicationNo,
-                      loanNo: d.loanNo,
-                    })}
-                  >
-                    Mandate Cancel
-                  </button>
-                </td>
+      <form onSubmit={loanStatusSubmitHandler}>
+          <table className="table">
+            <thead>
+              <tr>
+                <th>Loan No</th>
+                <th>Status</th>
+                <th>Actions</th>
               </tr>
-            ))}
-          </tbody>
-        </table>
-      )}
+            </thead>
+            <tbody>
+              {filteredLoans.map((d, idx) => (
+                <tr key={`loan_detail_${idx}`}>
+                  <td>{d.loanNo}</td>
+                  <td>{d.status_text}</td>
+                  <td>
+                    <input
+                      type="radio"
+                      name="loanSelection"
+                      value={d.loanNo}
+                      disabled={d.status === "A"}
+                      onChange={() => handleRadioChange(d)}
+                    />
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+          {selectedLoan && (
+            <div className="mt-3">
+              <button type="submit" className="btn btn-primary">
+                Submit
+              </button>
+            </div>
+          )}
+        </form>
     </div>
   );
 };

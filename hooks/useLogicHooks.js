@@ -69,12 +69,11 @@ const UseLogicHooks = () => {
     const dispatch = useDispatch()
     const router = useRouter()
     const enachInitialState = useSelector(state => state.enachSlice)
-
+    const { applicationDetails = {} } = useSelector((state) => state.enacCancelationSlice);
+    const [selectedLoan, setSelectedLoan] = useState(null);
     const [conditionRender, setConditionRender] = useState({ ...conditionRenderInitialState })
     const [userDetailState, setUserDetailState] = useState({ ...userDetailsInitialState })
     const [loanStatus, setloanStatus] = useState({ ...loanStatusInitialState })
-
-
     const [enachState, setEnachState] = useState({ ...enachInitialState })
 
     const conditionRenderHandler = (key, msg = "") => {
@@ -298,7 +297,11 @@ const UseLogicHooks = () => {
 
     const loanStatusSubmitHandler = async (e) => {
         e.preventDefault()
-        const body = { ...loanStatus }
+        const body = {
+              loanNo: selectedLoan.loanNo,
+              applicationNo: applicationDetails.applicationNo,
+              cancelCause: selectedLoan.status_text
+            }
         try {
             const { data } = await axios.post(api.cancellationStatus(), body);
             router.push("/enach-cancellation/success");
@@ -308,15 +311,20 @@ const UseLogicHooks = () => {
         }
     }
 
+      const handleRadioChange = (loan) => {
+        setSelectedLoan(loan);
+      };
+
     const loanStatusChangeHandler = (e) => changeHandlerHelper(e, loanStatus, setloanStatus)
     const StatusDefaultStateHandler = (e) => setloanStatus(state => ({ ...state, ...e }))
 
     return ({
-        conditionRender, userDetailState, enachState, loanStatus,
+        conditionRender, userDetailState, enachState, loanStatus,selectedLoan,
 
 
         requestOTPHandler, validateOTPHandler, enachSubmitHandler, enacCancelhvalidateOTPHandler,
-        retrieveData, debitFrequencyChangeHandler, loanStatusChangeHandler, StatusDefaultStateHandler, loanStatusSubmitHandler,
+        retrieveData, debitFrequencyChangeHandler, loanStatusChangeHandler, StatusDefaultStateHandler,
+        handleRadioChange, setSelectedLoan,loanStatusSubmitHandler,
 
         enachChangeHandler: (e) => changeHandlerHelper(e, enachState, setEnachState, paymentMethodChangeHandlerCase),
         userDetailChangeHandler: (e) => changeHandlerHelper(e, userDetailState, setUserDetailState),
