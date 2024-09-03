@@ -42,7 +42,7 @@ const UserDetailsPage = (props) => {
       <InputWithLabel
         feild={{
           name: "mobileNo",
-          label: "mobile No",
+          label: "Mobile No",
         }}
         state={applicationDetails}
         isDisabled
