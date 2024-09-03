@@ -42,7 +42,7 @@ const StatusModel = (props) => {
                         type: "select",
                         options: [
                             { name: "Loan Cancelled", value: "loan cancelled" },
-                            { name: "Loan Cancel", value: "Loan cancel" },
+                            { name: "Loan Closed", value: "Loan Closed" },
                         ],
                         isRequired: true,
                     }}
