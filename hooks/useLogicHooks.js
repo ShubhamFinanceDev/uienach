@@ -288,8 +288,17 @@ const UseLogicHooks = () => {
     }
 
 
-    const loanStatusSubmitHandler = (e) => {
+    const loanStatusSubmitHandler = async (e) => {
         e.preventDefault()
+        const body = { ...loanStatus }
+        try {
+            const { data } = await axios.post(api.cancellationStatus(), body);
+            alert("Mandate status canceled successfully!");
+            router.push("/");
+        
+        }catch (error) {
+            ErrorHandler(error)
+        }
     }
 
     const loanStatusChangeHandler = (e) => changeHandlerHelper(e, loanStatus, setloanStatus)
@@ -314,4 +323,3 @@ export default UseLogicHooks
 
 
 
-// const { loanStatus, loanStatusChangeHandler, loanStatusSubmitHandler, loanStatusDefaultStateHandler } = UseLogicHooks()

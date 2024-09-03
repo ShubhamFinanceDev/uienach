@@ -16,7 +16,7 @@ const StatusModel = (props) => {
     return (
         <div className='model-container'>
             <p className='mb-3'>Loan Cancelation Acknowledgement</p>
-            <form onSubmit={loanStatusSubmitHandler} className='row'>
+            <form onSubmit={e => loanStatusSubmitHandler(e, closeModel)} className='row'>
                 <InputWithLabel
                     feild={{
                         label: "applicationNo",
@@ -54,7 +54,7 @@ const StatusModel = (props) => {
 
                 <div className='mt-2 d-flex justify-content-end'>
                     <button className='btn' onClick={closeModel}>Cancel</button>
-                    <button className='btn btn-primary' type='submit'>Submit</button>
+                    <button type='submit' className='btn btn-primary'>Submit</button>
                 </div>
             </form>
         </div >
