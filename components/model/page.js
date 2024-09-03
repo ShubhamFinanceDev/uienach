@@ -19,7 +19,7 @@ const StatusModel = (props) => {
             <form onSubmit={e => loanStatusSubmitHandler(e, closeModel)} className='row'>
                 <InputWithLabel
                     feild={{
-                        label: "applicationNo",
+                        label: "Application No",
                         name: "applicationNo",
                         isDisabled: true
                     }}
