@@ -162,11 +162,8 @@ p.error {
 body {
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
+  // justify-content: space-between;
   min-height: 100vh;
-}
-main {
-  // min-height: calc(100vh - 11rem);
 }
 
 // loader core component
@@ -252,9 +249,31 @@ main {
 }
 
 footer {
-  background-color: #015495;
+  background-color: orange;
   color: white;
-  padding: 1rem;
+  padding: 0.5rem;
   text-align: center;
   font-size: 0.9rem;
+}
+header {
+  justify-content: center;
+  background-color: #044c8c;
+  display: flex;
+  // justify-content: space-between;
+  align-items: center;
+  padding: 1rem;
+  img {
+    height: 3rem;
+  }
+}
+.model-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  border: 2px solid $border-color;
+  border-radius: 0.5rem;
+  padding: 1rem;
+  width: 100%;
+  cursor: pointer;
 }

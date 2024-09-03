@@ -10,7 +10,43 @@
   background-color: #fafafb;
 }
 
-
-.gapinbutton{
+.gapinbutton {
   margin-left: 10px;
+}
+.containermainpage {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+.heading {
+  justify-content: center;
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+}
+
+.footer-span {
+  height: 3rem;
+  width: 100%;
+  display: block;
+}
+
+footer {
+  position: fixed;
+  width: 100%;
+  bottom: 0;
+  height: 3rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: $primary;
+}
+
+footer p {
+  color: white;
+  padding: 0.5rem;
+  text-align: center;
+  font-size: 0.9rem;
+  font-weight: 500;
 }

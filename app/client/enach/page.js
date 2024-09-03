@@ -1,13 +1,14 @@
 "use client"
 import React, { useState, useEffect } from 'react';
-import { useRouter } from 'next/navigation'
 import useLogicHooks from '@/hooks/useLogicHooks';
 import InputWithLabel from '@/components/input/InputWithLabel';
-import Branding from '@/components/core/Branding';
+// import Branding from '@/components/core/Branding';
 import SelectWithLabel from '@/components/input/SelectWithLabel';
 import RadioWithLabel from '@/components/input/RadioWithLabel';
 import axios from 'axios';
 import { api } from '@/services/endpoint';
+import { startLoaderAct, stopLoaderAct } from '@/redux/slice/loader.slice';
+import { useDispatch } from 'react-redux';
 
 const formInput = [
     { isReadOnly: true, type: 'text', info: 'Aesencrypted', id: 'Customer_Name', label: 'Account Holder Name', name: 'Customer_Name' },
@@ -53,16 +54,19 @@ const selectMandateType = [
 ];
 
 const EnachClient = () => {
-    const router = useRouter();
+    const dispatch = useDispatch()
     const { enachState, retrieveData, enachChangeHandler, enachSubmitHandler, debitFrequencyChangeHandler } = useLogicHooks()
     const [liveBankData, setLiveBankData] = useState({ Debit: [], Net: [] });
 
     const paymentMerchent = async () => {
         try {
+            dispatch(startLoaderAct())
             const { data } = await axios.get(api.paymentmerchentType())
             setLiveBankData(data);
         } catch (error) {
             console.error('+++ error', error);
+        } finally {
+            dispatch(stopLoaderAct())
         }
 
     }
@@ -87,67 +91,73 @@ const EnachClient = () => {
     }, []);
 
     return (
-        <div className='container'>
-            <Branding />
-            <form className="row" onSubmit={enachSubmitHandler}>
-                {formInput.map((d) => (
-                    <InputWithLabel
-                        key={`form_input__${d.name}`}
-                        feild={d}
-                        state={enachState}
-                        onChangeHandler={enachChangeHandler}
-                    />
-                ))}
-                {selectMandateType.map((d) => (
-                    <SelectWithLabel
-                        key={`form_input__${d.name}`}
-                        feild={d}
-                        state={enachState}
-                        onChangeHandler={debitFrequencyChangeHandler}
-                    />
-                ))}
-                <div className='heading-middle'>Bank Details:</div>
-                {selectPayment.map((d) => (
-                    <RadioWithLabel
-                        key={`form_input__${d.name}`}
-                        feild={d}
-                        state={enachState}
-                        onChangeHandler={enachChangeHandler}
-                    />
-                ))}
-                {selectgetLiveBankDtls.map((d) => (
-                    <SelectWithLabel
-                        key={`form_input__${d.name}`}
-                        feild={d}
-                        state={enachState}
-                        onChangeHandler={enachChangeHandler}
-                    />
-                ))}
-                {selectInput.map((d) => (
-                    <SelectWithLabel
-                        key={`form_input__${d.name}`}
-                        feild={d}
-                        state={enachState}
-                        onChangeHandler={enachChangeHandler}
-                    />
-                ))}
-                {formInput2.map((d) => (
-                    <InputWithLabel
-                        key={`form_input__${d.name}`}
-                        feild={d}
-                        state={enachState}
-                        onChangeHandler={enachChangeHandler}
-                        value={enachState.Customer_MaxAmount}
-                    />
-                ))}
-                <div className="row mb-5">
-                    <div className="col-md-6"></div>
-                    <div className="col-md-6 col-12">
-                        <button className='btn btn-primary mt-3 mb-3' type='submit'>Submit</button>
-                    </div>
+        <>
+            {/* <Branding /> */}
+            <div className='container'>
+                <div className='heading mt-5'>
+                    <h2 className='mb-1'>E-Nach Registration</h2>
+                    <p className='mb-3'>Create or modify mandate for future payment.</p>
                 </div>
-            </form>
-        </div>
+                <form className="row" onSubmit={enachSubmitHandler}>
+                    {formInput.map((d) => (
+                        <InputWithLabel
+                            key={`form_input__${d.name}`}
+                            feild={d}
+                            state={enachState}
+                            onChangeHandler={enachChangeHandler}
+                        />
+                    ))}
+                    {selectMandateType.map((d) => (
+                        <SelectWithLabel
+                            key={`form_input__${d.name}`}
+                            feild={d}
+                            state={enachState}
+                            onChangeHandler={debitFrequencyChangeHandler}
+                        />
+                    ))}
+                    <div className='heading-middle'>Bank Details:</div>
+                    {selectPayment.map((d) => (
+                        <RadioWithLabel
+                            key={`form_input__${d.name}`}
+                            feild={d}
+                            state={enachState}
+                            onChangeHandler={enachChangeHandler}
+                        />
+                    ))}
+                    {selectgetLiveBankDtls.map((d) => (
+                        <SelectWithLabel
+                            key={`form_input__${d.name}`}
+                            feild={d}
+                            state={enachState}
+                            onChangeHandler={enachChangeHandler}
+                        />
+                    ))}
+                    {selectInput.map((d) => (
+                        <SelectWithLabel
+                            key={`form_input__${d.name}`}
+                            feild={d}
+                            state={enachState}
+                            onChangeHandler={enachChangeHandler}
+                        />
+                    ))}
+                    {formInput2.map((d) => (
+                        <InputWithLabel
+                            key={`form_input__${d.name}`}
+                            feild={d}
+                            state={enachState}
+                            onChangeHandler={enachChangeHandler}
+                            value={enachState.Customer_MaxAmount}
+                        />
+                    ))}
+                    <div className="row mb-5">
+                        <div className="col-md-6"></div>
+                        <div className="col-md-6 col-12">
+                            <button className='btn btn-primary mt-3 mb-3' type='submit'>Submit</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </>
     );
 };
 
