@@ -8,8 +8,10 @@ import UseLogicHooks from "@/hooks/useLogicHooks";
 const UserDetailsPage = () => {
   const { applicationDetails = {}, loansDetails = [] } = useSelector((state) => state.enacCancelationSlice);
   const filteredLoans = loansDetails.filter((d) => d.status === "X" || d.status === "C" || d.status === "A");
-  const { selectedLoan,handleRadioChange, loanStatusSubmitHandler} =  UseLogicHooks()
+  const { selectedLoan,handleRadioChange, loanStatusSubmitHandler, maskMobileNumber, handleBackClick} =  UseLogicHooks()
   const { retrieveData } = UseLogicHooks()
+
+  const maskedMobileNo = maskMobileNumber(applicationDetails.mobileNo);
 
   useEffect(() => {
     retrieveData();
@@ -44,7 +46,7 @@ const UserDetailsPage = () => {
           name: "mobileNo",
           label: "Mobile No",
         }}
-        state={applicationDetails}
+        state={{ ...applicationDetails, mobileNo: maskedMobileNo }}
         isDisabled
       />
 
@@ -54,7 +56,7 @@ const UserDetailsPage = () => {
             <thead>
               <tr>
                 <th>Loan No</th>
-                <th>Status</th>
+                <th>Loan Status</th>
                 <th>Actions</th>
               </tr>
             </thead>
@@ -76,13 +78,16 @@ const UserDetailsPage = () => {
               ))}
             </tbody>
           </table>
+          <div className="mt-2 d-flex justify-content-center" >
           {selectedLoan && (
-            <div className="mt-2 d-flex justify-content-center">
-              <button type="submit" className="btn btn-primary">
+              <button type="submit" className="btn btn-primary me-2">
                 Submit
               </button>
-            </div>
           )}
+            <button type="button" className="btn btn-secondary " onClick={handleBackClick}>
+               Back
+             </button>
+          </div>
         </form>
     </div>
   );

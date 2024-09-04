@@ -314,6 +314,15 @@ const UseLogicHooks = () => {
       const handleRadioChange = (loan) => {
         setSelectedLoan(loan);
       };
+      const handleBackClick = () => {
+        debugger
+        router.push("/enach-cancellation");
+      };
+      
+      const maskMobileNumber = (mobileNumber) => {
+        if (!mobileNumber) return "";
+        return mobileNumber.replace(/^(\d{6})(\d{4})$/, "******$2");
+      };
 
     const loanStatusChangeHandler = (e) => changeHandlerHelper(e, loanStatus, setloanStatus)
     const StatusDefaultStateHandler = (e) => setloanStatus(state => ({ ...state, ...e }))
@@ -324,7 +333,7 @@ const UseLogicHooks = () => {
 
         requestOTPHandler, validateOTPHandler, enachSubmitHandler, enacCancelhvalidateOTPHandler,
         retrieveData, debitFrequencyChangeHandler, loanStatusChangeHandler, StatusDefaultStateHandler,
-        handleRadioChange, setSelectedLoan,loanStatusSubmitHandler,
+        handleRadioChange, setSelectedLoan,loanStatusSubmitHandler,maskMobileNumber,handleBackClick,
 
         enachChangeHandler: (e) => changeHandlerHelper(e, enachState, setEnachState, paymentMethodChangeHandlerCase),
         userDetailChangeHandler: (e) => changeHandlerHelper(e, userDetailState, setUserDetailState),
