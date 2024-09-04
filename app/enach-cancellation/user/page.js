@@ -3,10 +3,9 @@
 import React, { useEffect } from "react";
 import { useSelector } from "react-redux";
 import InputWithLabel from "@/components/input/InputWithLabel";
-import ModelHOC from "@/hooks/modelHoc";
 import UseLogicHooks from "@/hooks/useLogicHooks";
 
-const UserDetailsPage = (props) => {
+const UserDetailsPage = () => {
   const { applicationDetails = {}, loansDetails = [] } = useSelector((state) => state.enacCancelationSlice);
   const filteredLoans = loansDetails.filter((d) => d.status === "X" || d.status === "C" || d.status === "A");
   const { selectedLoan,handleRadioChange, loanStatusSubmitHandler} =  UseLogicHooks()
@@ -69,7 +68,7 @@ const UserDetailsPage = (props) => {
                       type="radio"
                       name="loanSelection"
                       value={d.loanNo}
-                      disabled={d.status === "A"}
+                      disabled={d.status === "A"|| d.currentStatus === true}
                       onChange={() => handleRadioChange(d)}
                     />
                   </td>
@@ -78,7 +77,7 @@ const UserDetailsPage = (props) => {
             </tbody>
           </table>
           {selectedLoan && (
-            <div className="mt-3">
+            <div className="mt-2 d-flex justify-content-center">
               <button type="submit" className="btn btn-primary">
                 Submit
               </button>
@@ -89,4 +88,4 @@ const UserDetailsPage = (props) => {
   );
 };
 
-export default ModelHOC(UserDetailsPage)
+export default (UserDetailsPage)
