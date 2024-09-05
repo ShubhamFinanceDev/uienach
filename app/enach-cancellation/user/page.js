@@ -78,13 +78,13 @@ const UserDetailsPage = () => {
               ))}
             </tbody>
           </table>
-          <div className="mt-2 d-flex justify-content-center" >
+          <div className="mt-3 d-flex justify-content-center" >
           {selectedLoan && (
               <button type="submit" className="btn btn-primary me-2">
                 Submit
               </button>
           )}
-            <button type="button" className="btn btn-secondary " onClick={handleBackClick}>
+            <button type="button" className="btn btn-secondary me-2" onClick={handleBackClick}>
                Back
              </button>
           </div>
