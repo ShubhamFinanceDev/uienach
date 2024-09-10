@@ -21,7 +21,7 @@ const UserDetailsPage = () => {
     <div className="container">
       <div className="heading mt-5">
         <h2 className="mb-1">E-Nach Cancelation</h2>
-        <p className="mb-3">Create or modify mandate for future payment.</p>
+        {/* <p className="mb-3">Create or modify mandate for future payment.</p> */}
       </div>
       <InputWithLabel
         feild={{
