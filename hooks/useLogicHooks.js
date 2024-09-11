@@ -10,6 +10,7 @@ import { useRouter } from 'next/navigation'
 import { AES256Encryptor, SHA256Hash, uniqueMsgID } from '@/utils/AESEncryption'
 import { useDispatch, useSelector } from 'react-redux'
 import { setEnachValue } from '@/redux/slice/enach.slice'
+import { setEnacCancel } from '@/redux/slice/enacCancelation.slice'
 import Cookies from 'js-cookie'
 
 
@@ -56,16 +57,23 @@ const userDetailsInitialState = {
     amount: "",
 }
 
+const loanStatusInitialState = {
+    applicationNo: "",
+    loanNo: "",
+    cancelCause: ''
+}
 
 
-const useLogicHooks = () => {
+
+const UseLogicHooks = () => {
     const dispatch = useDispatch()
     const router = useRouter()
     const enachInitialState = useSelector(state => state.enachSlice)
-
+    const { applicationDetails = {} } = useSelector((state) => state.enacCancelationSlice);
+    const [selectedLoan, setSelectedLoan] = useState(null);
     const [conditionRender, setConditionRender] = useState({ ...conditionRenderInitialState })
     const [userDetailState, setUserDetailState] = useState({ ...userDetailsInitialState })
-
+    const [loanStatus, setloanStatus] = useState({ ...loanStatusInitialState })
     const [enachState, setEnachState] = useState({ ...enachInitialState })
 
     const conditionRenderHandler = (key, msg = "") => {
@@ -118,7 +126,7 @@ const useLogicHooks = () => {
         e?.preventDefault()
         try {
 
-            const { mobile: mobileNo, otpCode,applicationNo } = userDetailState
+            const { mobile: mobileNo, otpCode, applicationNo } = userDetailState
             const { data } = await axios.post(api.validateOTP(), { mobileNo, otpCode, applicationNo: userDetailState.applicationNumber })
 
             if (data.code === "1111") {
@@ -149,8 +157,13 @@ const useLogicHooks = () => {
 
     const retrieveData = () => {
         let data = Cookies.get("user_data")
+        let ec_data = Cookies.get("ec_user_data")
+
         data = JSON.parse(data || "{}")
+        ec_data = JSON.parse(ec_data || "{}")
+
         dispatch(setEnachValue(data))
+        dispatch(setEnacCancel(ec_data))
         setEnachState((state) => ({ ...state, ...data }))
     }
 
@@ -162,7 +175,6 @@ const useLogicHooks = () => {
             delete body.applicationNo
 
             const { Customer_AccountNo, Customer_StartDate, Customer_ExpiryDate, Customer_DebitAmount, Customer_MaxAmount } = enachState
-            console.log(enachState)
 
             body.CheckSum = SHA256Hash([Customer_AccountNo, Customer_StartDate, Customer_ExpiryDate, Customer_DebitAmount, Customer_MaxAmount])
 
@@ -186,14 +198,14 @@ const useLogicHooks = () => {
                 applicationNo: enachState.applicationNo,
                 transactionStartDate: date,
                 paymentMethod: enachState.Channel,
-                mandateType:enachState.Customer_DebitFrequency,
-                amount:enachState.Customer_MaxAmount * 1,
-                
-                bankName:body.Filler6,
-                bankAccountNo:enachState.Customer_AccountNo,
-                ifscCode:body.Customer_InstructedMemberId,
-                startDate:enachState.Customer_StartDate,
-                endDate:enachState.Customer_ExpiryDate
+                mandateType: enachState.Customer_DebitFrequency,
+                amount: enachState.Customer_MaxAmount * 1,
+
+                bankName: body.Filler6,
+                bankAccountNo: enachState.Customer_AccountNo,
+                ifscCode: body.Customer_InstructedMemberId,
+                startDate: enachState.Customer_StartDate,
+                endDate: enachState.Customer_ExpiryDate
             })
             dispatch(setEnachValue(body))
             router.push("/client/form");
@@ -201,7 +213,7 @@ const useLogicHooks = () => {
             ErrorHandler(error)
         }
     }
-    const paymentMethodChangeHandlerCase = (prevState, {name, value}) => {
+    const paymentMethodChangeHandlerCase = (prevState, { name, value }) => {
         if (name === "Channel") {
             if (value === "Aadhaar") {
                 prevState.Filler7 = "OTP"
@@ -243,17 +255,95 @@ const useLogicHooks = () => {
 
     }
 
+    // EnachCanelation Handler
+
+    const enacCancelhvalidateOTPHandler = async (e) => {
+        e?.preventDefault()
+        try {
+
+            const { mobile: mobileNo, otpCode, applicationNumber: applicationNo } = userDetailState
+
+            let { data: { data = {}, loansDetails = [], code = "0000" } } = await axios.post(api.validateOTPENachCancellation(), {
+                mobileNo, otpCode, applicationNo
+            })
+            // {"msg":"Otp send.","code":"0000","otpCode":"260856","mobile":"9922762148"}
+
+            if (data.code === "1111") {
+                throw new Error(data.msg);
+            } else {
+
+                const status = {
+                    A: "Active",
+                    X: "Cancel",
+                    C: "Close"
+                }
+                loansDetails = loansDetails.map((d) => {
+                    d.status_text = status[d.status]
+                    return d
+                })
+
+                const payload = { applicationDetails: data, loansDetails }
+
+                dispatch(setEnacCancel(payload))
+                Cookies.set("ec_user_data", JSON.stringify(payload))
+                router.push("/enach-cancellation/user")
+            }
+
+        } catch (error) {
+            ErrorHandler(error)
+        }
+    }
+
+
+    const loanStatusSubmitHandler = async (e) => {
+        e.preventDefault()
+        const body = {
+              loanNo: selectedLoan.loanNo,
+              applicationNo: applicationDetails.applicationNo,
+              cancelCause: selectedLoan.status_text
+            }
+        try {
+            const { data } = await axios.post(api.cancellationStatus(), body);
+            router.push("/enach-cancellation/success");
+
+        } catch (error) {
+            ErrorHandler(error)
+        }
+    }
+
+      const handleRadioChange = (loan) => {
+        setSelectedLoan(loan);
+      };
+      const handleBackClick = () => {
+        debugger
+        router.push("/enach-cancellation");
+      };
+      
+      const maskMobileNumber = (mobileNumber) => {
+        if (!mobileNumber) return "";
+        return mobileNumber.replace(/^(\d{6})(\d{4})$/, "******$2");
+      };
+
+    const loanStatusChangeHandler = (e) => changeHandlerHelper(e, loanStatus, setloanStatus)
+    const StatusDefaultStateHandler = (e) => setloanStatus(state => ({ ...state, ...e }))
 
     return ({
-        conditionRender, userDetailState, enachState,
+        conditionRender, userDetailState, enachState, loanStatus,selectedLoan,
 
 
-        requestOTPHandler, validateOTPHandler, enachSubmitHandler,
-        retrieveData, debitFrequencyChangeHandler,
+        requestOTPHandler, validateOTPHandler, enachSubmitHandler, enacCancelhvalidateOTPHandler,
+        retrieveData, debitFrequencyChangeHandler, loanStatusChangeHandler, StatusDefaultStateHandler,
+        handleRadioChange, setSelectedLoan,loanStatusSubmitHandler,maskMobileNumber,handleBackClick,
 
         enachChangeHandler: (e) => changeHandlerHelper(e, enachState, setEnachState, paymentMethodChangeHandlerCase),
-        userDetailChangeHandler: (e) => changeHandlerHelper(e, userDetailState, setUserDetailState)
+        userDetailChangeHandler: (e) => changeHandlerHelper(e, userDetailState, setUserDetailState),
+
+
     })
 }
 
-export default useLogicHooks
+export default UseLogicHooks
+
+
+
+
