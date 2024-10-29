@@ -19,6 +19,7 @@ const ClientAuthPage = () => {
 
     const [isOTPRequested, setIsOTPRequested] = useState(false);
     const [timer, setTimer] = useState(0);
+    const [errors, setErrors] = useState({});
 
     useEffect(() => {
         let interval;
@@ -31,9 +32,25 @@ const ClientAuthPage = () => {
 
     const handleRequestOTP = (e) => {
         e.preventDefault();
-        requestOTPHandler(e);
-        setIsOTPRequested(true);
-        setTimer(600); // 10 minutes in seconds
+        const isValid = validateInputs();
+
+        if (isValid) {
+            requestOTPHandler(e);
+            setIsOTPRequested(true);
+            setTimer(600); // 10 minutes in seconds
+        }
+    };
+
+    const validateInputs = () => {
+        const newErrors = {};
+        formInput.forEach((input) => {
+            const value = userDetailState[input.name];
+            if (/\s/.test(value)) {
+                newErrors[input.name] = "This field cannot contain spaces.";
+            }
+        });
+        setErrors(newErrors);
+        return Object.keys(newErrors).length === 0;
     };
 
     const formatTime = (seconds) => `${Math.floor(seconds / 60)}:${seconds % 60 < 10 ? '0' : ''}${seconds % 60}`;
@@ -46,17 +63,18 @@ const ClientAuthPage = () => {
                         <h2 className='mb-1'>E-Nach Registration</h2>
                         <p className='mb-3'>Create or modify mandate for future payment.</p>
                         {isOTPRequested && timer > 0 && <h3 className='timer'>Time remaining: {formatTime(timer)}</h3>}
-                        
                     </div>
                     <form className="row" onSubmit={handleRequestOTP}>
                         {formInput.map((d) => (
-                            <InputWithLabel
-                                key={`form_input__${d.name}`}
-                                feild={{ ...d, isDisabled: conditionRender.showOTPSection }}
-                                state={userDetailState}
-                                onChangeHandler={userDetailChangeHandler}
-                                className={["col-12 mt-3", "", "form-control"]}
-                            />
+                            <div key={`form_input__${d.name}`} className="col-12 mt-3">
+                                <InputWithLabel
+                                    feild={{ ...d, isDisabled: conditionRender.showOTPSection }}
+                                    state={userDetailState}
+                                    onChangeHandler={userDetailChangeHandler}
+                                    className={["form-control"]}
+                                />
+                                {errors[d.name] && <p className="text-danger">{errors[d.name]}</p>}
+                            </div>
                         ))}
 
                         {!conditionRender.showOTPSection && (
@@ -71,13 +89,14 @@ const ClientAuthPage = () => {
                     {conditionRender.showOTPSection && (
                         <form className="row mt-2" onSubmit={validateOTPHandler}>
                             {OTPFormInput.map((d) => (
-                                <InputWithLabel
-                                    key={`form_input__${d.name}`}
-                                    feild={d}
-                                    state={userDetailState}
-                                    onChangeHandler={userDetailChangeHandler}
-                                    className={["col-12 mt-3", "", "form-control"]}
-                                />
+                                <div key={`form_input__${d.name}`} className="col-12 mt-3">
+                                    <InputWithLabel
+                                        feild={d}
+                                        state={userDetailState}
+                                        onChangeHandler={userDetailChangeHandler}
+                                        className={["form-control"]}
+                                    />
+                                </div>
                             ))}
 
                             <div className="col-12 mt-3">
