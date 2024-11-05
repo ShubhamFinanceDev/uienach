@@ -43,16 +43,17 @@ const ClientAuthPage = () => {
 
     const validateInputs = () => {
         const newErrors = {};
-        formInput.forEach((input) => {
-            const value = userDetailState[input.name];
-            if (/\s/.test(value)) {
-                newErrors[input.name] = "This field cannot contain spaces.";
-            }
-        });
-        setErrors(newErrors);
-        return Object.keys(newErrors).length === 0;
+        const errorMessages = formInput
+            .filter(input => /\s/.test(userDetailState[input.name]))
+            .map(input => `${input.label} Can Not Contain Spaces.`);
+    
+        if (errorMessages.length > 0) {
+            alert(errorMessages.join("\n"));
+            errorMessages.forEach((msg, index) => newErrors[formInput[index].name] = msg);
+        }
+            return errorMessages.length === 0;
     };
-
+    
     const formatTime = (seconds) => `${Math.floor(seconds / 60)}:${seconds % 60 < 10 ? '0' : ''}${seconds % 60}`;
 
     return (
@@ -66,13 +67,13 @@ const ClientAuthPage = () => {
                     </div>
                     <form className="row" onSubmit={handleRequestOTP}>
                         {formInput.map((d) => (
-                            <div key={`form_input__${d.name}`} className="col-12 mt-3">
+                            <div key={`form_input__${d.name}`}>
                                 <InputWithLabel
                                     feild={{ ...d, isDisabled: conditionRender.showOTPSection }}
                                     state={userDetailState}
                                     onChangeHandler={userDetailChangeHandler}
-                                    className={["form-control"]}
-                                />
+                                    className={["col-12 mt-3", "", "form-control"]}
+                                    />
                                 {errors[d.name] && <p className="text-danger">{errors[d.name]}</p>}
                             </div>
                         ))}
@@ -89,13 +90,13 @@ const ClientAuthPage = () => {
                     {conditionRender.showOTPSection && (
                         <form className="row mt-2" onSubmit={validateOTPHandler}>
                             {OTPFormInput.map((d) => (
-                                <div key={`form_input__${d.name}`} className="col-12 mt-3">
+                                <div key={`form_input__${d.name}`}>
                                     <InputWithLabel
                                         feild={d}
                                         state={userDetailState}
                                         onChangeHandler={userDetailChangeHandler}
-                                        className={["form-control"]}
-                                    />
+                                        className={["col-12 mt-3", "", "form-control"]}
+                                        />
                                 </div>
                             ))}
 
