@@ -15,7 +15,7 @@ export async function POST(req) {
         const jsonString = formObject.MandateRespDoc.replace(/'/g, '"');
         const parsedObject = JSON.parse(jsonString);
 
-        const { MsgId, Status = "Something went wrong!", Errors = {}, RefId="", Filler10="" } = parsedObject;
+        const { MsgId, Status = "Something went wrong!", Errors = {}, RefId="", Filler10="", Filler6="" } = parsedObject;
 
 
         let errorObject = []
@@ -29,7 +29,7 @@ export async function POST(req) {
 
         const errorString = errorObj2.join(", ") || ""
         
-        const { data: { applicationNo = "" , mandateType="", amount=""} } = await axios.put(api.enachPaymentStatus(MsgId), { transactionStatus: Status, errorMessage : errorString,  refrenceId:RefId, umrn:Filler10});
+        const { data: { applicationNo = "" , mandateType="", amount=""} } = await axios.put(api.enachPaymentStatus(MsgId), { transactionStatus: Status, errorMessage : errorString,  refrenceId:RefId, umrn:Filler10, bankCode:Filler6});
         const transactionQuery = `applicationNo=${applicationNo}&MsgId=${MsgId}&mandateType=${mandateType}&amount=${amount}`
 
         if (Status === 'Failed') {
